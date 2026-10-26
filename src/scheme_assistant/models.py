@@ -2,7 +2,7 @@
 
 from datetime import date
 from enum import StrEnum
-from typing import Self
+from typing import Literal, Self
 
 from pydantic import BaseModel, ConfigDict, Field, HttpUrl, model_validator
 
@@ -41,3 +41,15 @@ class Scheme(BaseModel):
         if self.level == SchemeLevel.CENTRAL and self.state:
             raise ValueError("central schemes must not have a state")
         return self
+
+
+class RetrievalQuery(BaseModel):
+    """A test question for scheme search, with the schemes it must find."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    id: str = Field(pattern=r"^q\d{3}$")  # e.g. "q001"
+    query: str = Field(min_length=3)
+    user_state: str | None = None  # where the user lives; None if they don't say
+    style: Literal["persona", "hinglish", "hindi", "keyword"]
+    relevant: list[str] = Field(min_length=1)  # scheme ids that should be found
