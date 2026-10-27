@@ -101,6 +101,12 @@ def load_schemes() -> list[Scheme]:
     return schemes
 
 
+def load_scheme(scheme_id: str) -> Scheme:
+    """Load one scheme by id."""
+    path = SCHEMES_DIR / f"{scheme_id}.json"
+    return Scheme.model_validate_json(path.read_text(encoding="utf-8"))
+
+
 def scheme_text(scheme: Scheme) -> str:
     """Build the text that represents a scheme in the index.
 

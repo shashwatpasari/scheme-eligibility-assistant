@@ -23,7 +23,7 @@ class Scheme(BaseModel):
     state: str | None = None  # only for state schemes
     ministry: str | None = None
 
-    # Sections kept as original text; structured rules live in EligibilityRule.
+    # Sections kept as the original text from the source.
     details: str
     eligibility: str
     benefits: str
@@ -53,3 +53,19 @@ class RetrievalQuery(BaseModel):
     user_state: str | None = None  # where the user lives; None if they don't say
     style: Literal["persona", "hinglish", "hindi", "keyword"]
     relevant: list[str] = Field(min_length=1)  # scheme ids that should be found
+
+
+Verdict = Literal["eligible", "not_eligible", "need_more_info"]
+
+
+class EligibilityCase(BaseModel):
+    """A test case for the eligibility check: one user, one scheme, the correct verdict."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    id: str = Field(pattern=r"^e\d{3}$")  # e.g. "e001"
+    scheme_id: str
+    user_state: str | None = None
+    user_description: str = Field(min_length=10)
+    verdict: Verdict
+    note: str  # why this verdict is correct, for reviewers
