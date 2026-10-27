@@ -5,3 +5,4 @@ __pycache__/
 .env
 data/raw/hf/
 data/schemes/*.json
+data/qdrant/
