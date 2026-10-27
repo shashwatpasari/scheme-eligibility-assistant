@@ -1,0 +1,590 @@
+{
+  "date": "2026-10-27",
+  "split": "test",
+  "rewrite_model": "gemini-3.8-flash",
+  "search_setup": "hybrid 70/30 + state filter",
+  "top_k": 10,
+  "mean_rewrite_seconds": 4.42,
+  "state_check": {
+    "correct": 2,
+    "none": 38,
+    "wrong": 0
+  },
+  "variants": {
+    "original": {
+      "overall": {
+        "hit@1": 0.75,
+        "hit@5": 0.875,
+        "hit@10": 0.925,
+        "mrr": 0.7997916666666667
+      },
+      "by_style": {
+        "hindi": {
+          "hit@1": 0.5,
+          "hit@5": 0.5,
+          "hit@10": 0.5,
+          "mrr": 0.5
+        },
+        "hinglish": {
+          "hit@1": 0.5,
+          "hit@5": 1.0,
+          "hit@10": 1.0,
+          "mrr": 0.6666666666666666
+        },
+        "keyword": {
+          "hit@1": 0.6666666666666666,
+          "hit@5": 0.6666666666666666,
+          "hit@10": 0.6666666666666666,
+          "mrr": 0.6666666666666666
+        },
+        "persona": {
+          "hit@1": 0.7878787878787878,
+          "hit@5": 0.9090909090909091,
+          "hit@10": 0.9696969696969697,
+          "mrr": 0.8381313131313132
+        }
+      },
+      "ranks": {
+        "q041": 1,
+        "q042": 2,
+        "q043": 8,
+        "q044": null,
+        "q045": 1,
+        "q046": 3,
+        "q047": 1,
+        "q048": 1,
+        "q049": 5,
+        "q050": 1,
+        "q051": 1,
+        "q052": 1,
+        "q053": 1,
+        "q054": 1,
+        "q055": 3,
+        "q056": 1,
+        "q057": 1,
+        "q058": 1,
+        "q059": 1,
+        "q060": 1,
+        "q061": 1,
+        "q062": 6,
+        "q063": 1,
+        "q064": 1,
+        "q065": 1,
+        "q066": 1,
+        "q067": 3,
+        "q068": 1,
+        "q069": 1,
+        "q070": 1,
+        "q071": 1,
+        "q072": 1,
+        "q073": 1,
+        "q074": 1,
+        "q075": 1,
+        "q076": 1,
+        "q077": 1,
+        "q078": 1,
+        "q079": null,
+        "q080": null
+      }
+    },
+    "rewrite": {
+      "overall": {
+        "hit@1": 0.725,
+        "hit@5": 0.9,
+        "hit@10": 0.925,
+        "mrr": 0.7883333333333333
+      },
+      "by_style": {
+        "hindi": {
+          "hit@1": 0.0,
+          "hit@5": 0.0,
+          "hit@10": 0.0,
+          "mrr": 0.0
+        },
+        "hinglish": {
+          "hit@1": 0.5,
+          "hit@5": 1.0,
+          "hit@10": 1.0,
+          "mrr": 0.75
+        },
+        "keyword": {
+          "hit@1": 0.6666666666666666,
+          "hit@5": 1.0,
+          "hit@10": 1.0,
+          "mrr": 0.7777777777777778
+        },
+        "persona": {
+          "hit@1": 0.7878787878787878,
+          "hit@5": 0.9393939393939394,
+          "hit@10": 0.9696969696969697,
+          "mrr": 0.8393939393939394
+        }
+      },
+      "ranks": {
+        "q041": 1,
+        "q042": 2,
+        "q043": 6,
+        "q044": null,
+        "q045": 1,
+        "q046": 3,
+        "q047": 1,
+        "q048": 1,
+        "q049": 4,
+        "q050": 2,
+        "q051": 1,
+        "q052": 1,
+        "q053": 1,
+        "q054": 1,
+        "q055": 4,
+        "q056": 1,
+        "q057": 1,
+        "q058": 1,
+        "q059": 1,
+        "q060": 1,
+        "q061": 1,
+        "q062": 5,
+        "q063": 1,
+        "q064": 1,
+        "q065": 1,
+        "q066": 1,
+        "q067": 1,
+        "q068": 1,
+        "q069": 1,
+        "q070": 1,
+        "q071": 1,
+        "q072": 1,
+        "q073": 1,
+        "q074": 1,
+        "q075": 1,
+        "q076": 1,
+        "q077": null,
+        "q078": 1,
+        "q079": null,
+        "q080": 3
+      }
+    },
+    "original + rewrite": {
+      "overall": {
+        "hit@1": 0.75,
+        "hit@5": 0.9,
+        "hit@10": 0.9,
+        "mrr": 0.8029166666666667
+      },
+      "by_style": {
+        "hindi": {
+          "hit@1": 0.0,
+          "hit@5": 0.0,
+          "hit@10": 0.0,
+          "mrr": 0.0
+        },
+        "hinglish": {
+          "hit@1": 0.5,
+          "hit@5": 1.0,
+          "hit@10": 1.0,
+          "mrr": 0.75
+        },
+        "keyword": {
+          "hit@1": 0.6666666666666666,
+          "hit@5": 1.0,
+          "hit@10": 1.0,
+          "mrr": 0.7777777777777778
+        },
+        "persona": {
+          "hit@1": 0.8181818181818182,
+          "hit@5": 0.9393939393939394,
+          "hit@10": 0.9393939393939394,
+          "mrr": 0.8570707070707071
+        }
+      },
+      "ranks": {
+        "q041": 1,
+        "q042": 3,
+        "q043": null,
+        "q044": null,
+        "q045": 1,
+        "q046": 1,
+        "q047": 1,
+        "q048": 1,
+        "q049": 1,
+        "q050": 2,
+        "q051": 1,
+        "q052": 1,
+        "q053": 1,
+        "q054": 1,
+        "q055": 4,
+        "q056": 1,
+        "q057": 1,
+        "q058": 1,
+        "q059": 1,
+        "q060": 1,
+        "q061": 1,
+        "q062": 5,
+        "q063": 1,
+        "q064": 1,
+        "q065": 1,
+        "q066": 1,
+        "q067": 1,
+        "q068": 2,
+        "q069": 1,
+        "q070": 1,
+        "q071": 1,
+        "q072": 1,
+        "q073": 1,
+        "q074": 1,
+        "q075": 1,
+        "q076": 1,
+        "q077": null,
+        "q078": 1,
+        "q079": null,
+        "q080": 3
+      }
+    }
+  },
+  "rewrites": {
+    "q041": {
+      "search_query": "Government schemes providing traditional craftsmen and carpenters training, a toolkit, and a cheap loan",
+      "state": null,
+      "facts": [
+        "carpenter",
+        "works with hand tools from home"
+      ]
+    },
+    "q042": {
+      "search_query": "Cheap government life insurance scheme for a 35-year-old with a post office savings account that pays the family upon death",
+      "state": null,
+      "facts": [
+        "age 35",
+        "has a savings account at the post office"
+      ]
+    },
+    "q043": {
+      "search_query": "Government financial assistance or wage compensation for a 24-year-old daily wage labourer pregnant with her first child",
+      "state": null,
+      "facts": [
+        "age 24",
+        "pregnant with first child",
+        "daily wage labourer"
+      ]
+    },
+    "q044": {
+      "search_query": "Bank loan for a woman to start her first manufacturing unit.",
+      "state": null,
+      "facts": [
+        "woman",
+        "wants to set up first manufacturing unit",
+        "needs a bank loan"
+      ]
+    },
+    "q045": {
+      "search_query": "I am a graduate student looking for an internship to learn how welfare schemes for ex-servicemen are run.",
+      "state": null,
+      "facts": [
+        "graduate student",
+        "seeks internship on ex-servicemen welfare schemes"
+      ]
+    },
+    "q046": {
+      "search_query": "Government award for saving someone's life by rescuing a drowning child from a river",
+      "state": null,
+      "facts": [
+        "pulled a drowning child out of a river last month",
+        "saved someone's life"
+      ]
+    },
+    "q047": {
+      "search_query": "Monthly scholarship for students admitted to the M.Sc. Dairying programme at the National Dairy Research Institute",
+      "state": null,
+      "facts": [
+        "admitted to M.Sc. Dairying programme at National Dairy Research Institute",
+        "seeking monthly scholarship"
+      ]
+    },
+    "q048": {
+      "search_query": "Postgraduate student seeking internship with a central government body working on productivity and efficiency",
+      "state": null,
+      "facts": [
+        "postgraduate student",
+        "seeking internship"
+      ]
+    },
+    "q049": {
+      "search_query": "Scholarship for a Scheduled Caste student studying in class 8 at a government school",
+      "state": null,
+      "facts": [
+        "son is in class 8",
+        "attends government school",
+        "Scheduled Caste family"
+      ]
+    },
+    "q050": {
+      "search_query": "Does the government provide financial assistance for constructing a toilet in a rural village home?",
+      "state": null,
+      "facts": [
+        "lives in a village",
+        "house does not have a toilet"
+      ]
+    },
+    "q051": {
+      "search_query": "Postdoctoral fellowship for social science research for a 38-year-old with a PhD in sociology",
+      "state": null,
+      "facts": [
+        "age 38",
+        "completed PhD in sociology",
+        "seeking postdoctoral fellowship in social science research"
+      ]
+    },
+    "q052": {
+      "search_query": "Reimbursement of patent registration costs for a small manufacturing company granted a patent.",
+      "state": null,
+      "facts": [
+        "runs a small manufacturing company",
+        "granted a patent"
+      ]
+    },
+    "q053": {
+      "search_query": "Allowance for buying uniforms for a student studying in a government college whose father is an unemployed ex-serviceman",
+      "state": null,
+      "facts": [
+        "father is an ex-serviceman",
+        "father is unemployed",
+        "studies in a government college"
+      ]
+    },
+    "q054": {
+      "search_query": "Financial assistance for delivery for a registered female construction worker.",
+      "state": null,
+      "facts": [
+        "female",
+        "registered construction worker",
+        "expecting delivery of a baby"
+      ]
+    },
+    "q055": {
+      "search_query": "Free coaching for OBC students from low-income families to prepare for IAS and state civil service exams",
+      "state": null,
+      "facts": [
+        "OBC category",
+        "student",
+        "low-income family",
+        "preparing for IAS and state civil service exams",
+        "seeking free coaching"
+      ]
+    },
+    "q056": {
+      "search_query": "Can a 61-year-old registered building worker receive a monthly pension from the welfare board?",
+      "state": null,
+      "facts": [
+        "age 61",
+        "registered building worker"
+      ]
+    },
+    "q057": {
+      "search_query": "Pension schemes for a 50-year-old widow from a below poverty line household earning less than ₹4,000 a month.",
+      "state": null,
+      "facts": [
+        "age 50",
+        "widow",
+        "below the poverty line",
+        "household income less than ₹4,000 a month"
+      ]
+    },
+    "q058": {
+      "search_query": "Livestock farmer in Vidisha district seeking government subsidy to buy two good-breed buffaloes",
+      "state": "Madhya Pradesh",
+      "facts": [
+        "livestock farmer",
+        "lives in Vidisha district",
+        "wants to buy two good-breed buffaloes",
+        "seeking government subsidy"
+      ]
+    },
+    "q059": {
+      "search_query": "Cashless hospital treatment schemes for major illnesses for indigenous tribes living in Namsai district",
+      "state": "Arunachal Pradesh",
+      "facts": [
+        "belongs to an indigenous tribe",
+        "lives in Namsai district"
+      ]
+    },
+    "q060": {
+      "search_query": "Government schemes to buy or purchase books from local writers and authors of Tiatr song books",
+      "state": null,
+      "facts": [
+        "written a book of Tiatr songs",
+        "struggles to sell copies",
+        "local writer"
+      ]
+    },
+    "q061": {
+      "search_query": "Reimbursement or financial assistance for buying work tools for a registered construction worker who finished a skill upgradation course",
+      "state": null,
+      "facts": [
+        "registered construction worker",
+        "completed a skill upgradation course",
+        "wants financial assistance or reimbursement for buying work tools"
+      ]
+    },
+    "q062": {
+      "search_query": "Scholarship for a tribal student studying engineering with family income of ₹1.5 lakh a year",
+      "state": null,
+      "facts": [
+        "tribal student",
+        "studying engineering",
+        "family income ₹1.5 lakh a year"
+      ]
+    },
+    "q063": {
+      "search_query": "Free textbooks for daughter studying in class 5 at a welfare department school for Dalit and tribal children.",
+      "state": null,
+      "facts": [
+        "daughter in class 5",
+        "studies at a welfare department school for Dalit and tribal children"
+      ]
+    },
+    "q064": {
+      "search_query": "Is there an unemployment allowance for a class 12 passed person with a locomotor disability registered at the employment exchange for three years without a job?",
+      "state": null,
+      "facts": [
+        "has locomotor disability",
+        "passed class 12",
+        "registered at employment exchange for 3 years",
+        "unemployed"
+      ]
+    },
+    "q065": {
+      "search_query": "Marriage grant schemes for a 19-year-old daughter of a poor OBC family in a village.",
+      "state": null,
+      "facts": [
+        "poor",
+        "OBC category",
+        "lives in a village",
+        "daughter age 19",
+        "daughter getting married"
+      ]
+    },
+    "q066": {
+      "search_query": "Incentive or financial assistance for a Gir cow giving birth to a female calf through artificial insemination",
+      "state": null,
+      "facts": [
+        "owns a Gir cow",
+        "cow gave birth to a female calf through artificial insemination three months ago"
+      ]
+    },
+    "q067": {
+      "search_query": "Government financial incentive or assistance schemes for the daughter of a registered construction worker.",
+      "state": null,
+      "facts": [
+        "registered construction worker",
+        "has a daughter"
+      ]
+    },
+    "q068": {
+      "search_query": "I dropped out of school after class 8, work in the unorganised sector, and want short vocational training and a certificate to get better jobs.",
+      "state": null,
+      "facts": [
+        "school dropout after class 8",
+        "works in the unorganised sector",
+        "wants short vocational training and certificate"
+      ]
+    },
+    "q069": {
+      "search_query": "Financial assistance for father needing an expensive operation at a government hospital with annual family income under 3 lakh rupees and 10 years of residence.",
+      "state": null,
+      "facts": [
+        "father needs expensive operation",
+        "operation at a government hospital",
+        "family income under ₹3 lakh a year",
+        "resident for 10 years"
+      ]
+    },
+    "q070": {
+      "search_query": "Subsidy on insurance premium for shrimp crop farming",
+      "state": null,
+      "facts": [
+        "farms shrimp",
+        "wants subsidy on insurance premium for shrimp crop"
+      ]
+    },
+    "q071": {
+      "search_query": "Cash award for a student with 50% disability who scored high marks in degree exams",
+      "state": null,
+      "facts": [
+        "son has 50% disability",
+        "scored high marks in degree exams"
+      ]
+    },
+    "q072": {
+      "search_query": "Is there a monthly pension scheme for blind persons with almost no income living on the islands?",
+      "state": null,
+      "facts": [
+        "blind",
+        "almost no income",
+        "lives on the islands"
+      ]
+    },
+    "q073": {
+      "search_query": "Interest-free education loan to study engineering abroad with a family income of 4 lakh rupees per year",
+      "state": null,
+      "facts": [
+        "wants to study engineering abroad",
+        "family income 4 lakh rupees per year",
+        "seeking interest-free education loan"
+      ]
+    },
+    "q074": {
+      "search_query": "Subsidy for planting material for cultivating areca nut and pineapple for a farmer with 1 hectare of land.",
+      "state": null,
+      "facts": [
+        "farmer",
+        "has 1 hectare of land",
+        "wants to plant areca nut and pineapple",
+        "seeking subsidy for planting material"
+      ]
+    },
+    "q075": {
+      "search_query": "Government financial assistance schemes for marriage costs for a 22-year-old daughter getting married for the first time from an AAY ration card holder family",
+      "state": null,
+      "facts": [
+        "daughter is 22 years old",
+        "daughter getting married for the first time",
+        "family has an AAY ration card"
+      ]
+    },
+    "q076": {
+      "search_query": "Life cover provided under Jeevan Jyoti Bima Yojana.",
+      "state": null,
+      "facts": []
+    },
+    "q077": {
+      "search_query": "Government scheme providing financial assistance to pregnant women on the birth of their first child",
+      "state": null,
+      "facts": [
+        "pregnant woman",
+        "first child"
+      ]
+    },
+    "q078": {
+      "search_query": "Stand Up India loan scheme for SC, ST, and women entrepreneurs.",
+      "state": null,
+      "facts": [
+        "SC or ST",
+        "woman entrepreneur"
+      ]
+    },
+    "q079": {
+      "search_query": "Government schemes for artisans like carpenters, blacksmiths, and potters",
+      "state": null,
+      "facts": [
+        "artisan such as carpenter, blacksmith, or potter"
+      ]
+    },
+    "q080": {
+      "search_query": "Pre-matric scholarship for Scheduled Caste SC students",
+      "state": null,
+      "facts": [
+        "Scheduled Caste",
+        "pre-matric student"
+      ]
+    }
+  }
+}

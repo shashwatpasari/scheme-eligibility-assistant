@@ -51,3 +51,41 @@ Results are written to `results/retrieval_<split>.json`.
 - Queries were written by an LLM rather than real users, and have not been reviewed by hand.
 - Labels are incomplete. Other schemes can also fit a query (e.g. other states'
   SC pre-matric scholarships), and retrieving them first counts as a miss.
+
+## Results
+
+Search setup: hybrid 70/30 + state filter, top 10. Full numbers are in `results/`.
+
+### Search (`retrieval_<split>.json`)
+
+| Set | Hit@1 | Hit@5 | Hit@10 | MRR |
+|---|---|---|---|---|
+| dev | 0.65 | 0.90 | 0.95 | 0.75 |
+| test | 0.75 | 0.88 | 0.93 | 0.80 |
+
+### Query rewrite (`rewrite_<split>_<model>.json`)
+
+An LLM rewrites each question into English before searching
+(`uv run python -m scheme_assistant.evaluate_rewrite --split test --model <model>`).
+The prompt was tuned on dev only.
+
+| Set | Search text | Model | Hit@1 | Hit@5 | Hit@10 | MRR | Mean time |
+|---|---|---|---|---|---|---|---|
+| dev | original | - | 0.65 | 0.90 | 0.95 | 0.75 | - |
+| dev | rewrite | gemini-3.5-flash-lite | 0.68 | 0.95 | 0.97 | 0.77 | 1.0 s |
+| dev | rewrite | gemini-3.8-flash | 0.60 | 0.90 | 0.95 | 0.74 | 4.4 s |
+| test | original | - | 0.75 | 0.88 | 0.93 | 0.80 | - |
+| test | rewrite | gemini-3.5-flash-lite | 0.68 | 0.85 | 0.90 | 0.75 | 1.0 s |
+| test | rewrite | gemini-3.8-flash | 0.72 | 0.90 | 0.93 | 0.79 | 4.4 s |
+
+Joining the original and the rewrite into one search text did not help either.
+
+**Finding:** rewriting does not reliably improve search. It gains a little on dev and
+loses a little on test, a difference of one or two queries. bge-m3 is multilingual and
+already handles Hindi and Hinglish; one Hindi test query found at rank 1 was lost after
+translation. Search therefore uses the original question.
+
+The rewrite step is kept for what search cannot do: extracting the user's state and
+facts about them for the eligibility check. Across all 80 queries, gemini-3.8-flash
+returned no wrong state and gemini-3.5-flash-lite one (q024, a student living in Delhi
+asking about their unnamed home state, where Delhi is arguably correct).

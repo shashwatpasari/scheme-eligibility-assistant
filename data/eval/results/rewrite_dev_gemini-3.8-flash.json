@@ -1,0 +1,599 @@
+{
+  "date": "2026-10-27",
+  "split": "dev",
+  "rewrite_model": "gemini-3.8-flash",
+  "search_setup": "hybrid 70/30 + state filter",
+  "top_k": 10,
+  "mean_rewrite_seconds": 4.37,
+  "state_check": {
+    "correct": 7,
+    "none": 33,
+    "wrong": 0
+  },
+  "variants": {
+    "original": {
+      "overall": {
+        "hit@1": 0.65,
+        "hit@5": 0.9,
+        "hit@10": 0.95,
+        "mrr": 0.7541666666666667
+      },
+      "by_style": {
+        "hindi": {
+          "hit@1": 0.0,
+          "hit@5": 0.5,
+          "hit@10": 0.5,
+          "mrr": 0.25
+        },
+        "hinglish": {
+          "hit@1": 0.5,
+          "hit@5": 1.0,
+          "hit@10": 1.0,
+          "mrr": 0.6666666666666666
+        },
+        "keyword": {
+          "hit@1": 0.5,
+          "hit@5": 0.75,
+          "hit@10": 0.75,
+          "mrr": 0.5833333333333334
+        },
+        "persona": {
+          "hit@1": 0.71875,
+          "hit@5": 0.9375,
+          "hit@10": 1.0,
+          "mrr": 0.8125
+        }
+      },
+      "ranks": {
+        "q001": 1,
+        "q002": 1,
+        "q003": 1,
+        "q004": 1,
+        "q005": 3,
+        "q006": 1,
+        "q007": 1,
+        "q008": 1,
+        "q009": 2,
+        "q010": 1,
+        "q011": 3,
+        "q012": 1,
+        "q013": 1,
+        "q014": 1,
+        "q015": 4,
+        "q016": 1,
+        "q017": 1,
+        "q018": 1,
+        "q019": 8,
+        "q020": 1,
+        "q021": 2,
+        "q022": 1,
+        "q023": 3,
+        "q024": 1,
+        "q025": 1,
+        "q026": 3,
+        "q027": 1,
+        "q028": 2,
+        "q029": 1,
+        "q030": 1,
+        "q031": 1,
+        "q032": 1,
+        "q033": 1,
+        "q034": 8,
+        "q035": null,
+        "q036": 3,
+        "q037": null,
+        "q038": 2,
+        "q039": 1,
+        "q040": 1
+      }
+    },
+    "rewrite": {
+      "overall": {
+        "hit@1": 0.6,
+        "hit@5": 0.9,
+        "hit@10": 0.95,
+        "mrr": 0.7375
+      },
+      "by_style": {
+        "hindi": {
+          "hit@1": 0.5,
+          "hit@5": 1.0,
+          "hit@10": 1.0,
+          "mrr": 0.75
+        },
+        "hinglish": {
+          "hit@1": 0.5,
+          "hit@5": 0.5,
+          "hit@10": 0.5,
+          "mrr": 0.5
+        },
+        "keyword": {
+          "hit@1": 0.5,
+          "hit@5": 0.75,
+          "hit@10": 1.0,
+          "mrr": 0.59375
+        },
+        "persona": {
+          "hit@1": 0.625,
+          "hit@5": 0.9375,
+          "hit@10": 0.96875,
+          "mrr": 0.76953125
+        }
+      },
+      "ranks": {
+        "q001": 1,
+        "q002": 1,
+        "q003": 1,
+        "q004": 1,
+        "q005": 1,
+        "q006": 1,
+        "q007": 1,
+        "q008": 1,
+        "q009": 2,
+        "q010": 1,
+        "q011": 2,
+        "q012": 1,
+        "q013": 2,
+        "q014": 1,
+        "q015": 3,
+        "q016": 1,
+        "q017": 1,
+        "q018": 1,
+        "q019": null,
+        "q020": 2,
+        "q021": 2,
+        "q022": null,
+        "q023": 8,
+        "q024": 1,
+        "q025": 1,
+        "q026": 2,
+        "q027": 1,
+        "q028": 3,
+        "q029": 1,
+        "q030": 1,
+        "q031": 1,
+        "q032": 2,
+        "q033": 3,
+        "q034": 1,
+        "q035": 8,
+        "q036": 4,
+        "q037": 1,
+        "q038": 2,
+        "q039": 1,
+        "q040": 1
+      }
+    },
+    "original + rewrite": {
+      "overall": {
+        "hit@1": 0.475,
+        "hit@5": 0.9,
+        "hit@10": 0.95,
+        "mrr": 0.6827380952380953
+      },
+      "by_style": {
+        "hindi": {
+          "hit@1": 0.0,
+          "hit@5": 0.5,
+          "hit@10": 1.0,
+          "mrr": 0.3333333333333333
+        },
+        "hinglish": {
+          "hit@1": 0.5,
+          "hit@5": 1.0,
+          "hit@10": 1.0,
+          "mrr": 0.6666666666666666
+        },
+        "keyword": {
+          "hit@1": 0.25,
+          "hit@5": 0.5,
+          "hit@10": 0.75,
+          "mrr": 0.4107142857142857
+        },
+        "persona": {
+          "hit@1": 0.53125,
+          "hit@5": 0.96875,
+          "hit@10": 0.96875,
+          "mrr": 0.7395833333333334
+        }
+      },
+      "ranks": {
+        "q001": 2,
+        "q002": 1,
+        "q003": 1,
+        "q004": 1,
+        "q005": 1,
+        "q006": 1,
+        "q007": 1,
+        "q008": 1,
+        "q009": 2,
+        "q010": 1,
+        "q011": 2,
+        "q012": 1,
+        "q013": 2,
+        "q014": 1,
+        "q015": 3,
+        "q016": 2,
+        "q017": 2,
+        "q018": 1,
+        "q019": null,
+        "q020": 1,
+        "q021": 2,
+        "q022": 3,
+        "q023": 2,
+        "q024": 1,
+        "q025": 1,
+        "q026": 2,
+        "q027": 1,
+        "q028": 3,
+        "q029": 1,
+        "q030": 2,
+        "q031": 1,
+        "q032": 2,
+        "q033": 2,
+        "q034": 1,
+        "q035": null,
+        "q036": 7,
+        "q037": 2,
+        "q038": 6,
+        "q039": 2,
+        "q040": 1
+      }
+    }
+  },
+  "rewrites": {
+    "q001": {
+      "search_query": "Free health insurance covering hospital treatment for very poor families living in a one-room kutcha house in a village",
+      "state": null,
+      "facts": [
+        "very poor family",
+        "lives in a one-room kutcha house",
+        "lives in a village",
+        "seeking free health insurance for hospital treatment"
+      ]
+    },
+    "q002": {
+      "search_query": "I am a 28-year-old domestic helper earning about ₹9,000 a month with a savings bank account who does not pay income tax and wants a guaranteed monthly pension for old age.",
+      "state": null,
+      "facts": [
+        "age 28",
+        "occupation domestic helper",
+        "earns about ₹9,000 a month",
+        "has a savings bank account",
+        "does not pay income tax",
+        "wants a guaranteed monthly pension for old age"
+      ]
+    },
+    "q003": {
+      "search_query": "Government schemes providing yearly cash support directly into bank accounts for farmers owning 2 acres of farmland in their own name.",
+      "state": null,
+      "facts": [
+        "farmer",
+        "owns 2 acres of farmland in own name"
+      ]
+    },
+    "q004": {
+      "search_query": "Small collateral-free loan for a street vegetable handcart vendor in Lucknow to restart business.",
+      "state": "Uttar Pradesh",
+      "facts": [
+        "street vegetable vendor with a handcart",
+        "located in Lucknow",
+        "needs a small loan without collateral",
+        "wants to restart business"
+      ]
+    },
+    "q005": {
+      "search_query": "How to get a free LPG connection for a village resident with a BPL card and no existing gas connection at home?",
+      "state": null,
+      "facts": [
+        "lives in a village",
+        "has a BPL card",
+        "no gas connection at home"
+      ]
+    },
+    "q006": {
+      "search_query": "Internship schemes offered by Delhi University for second-year undergraduate students.",
+      "state": "Delhi",
+      "facts": [
+        "second-year undergraduate student",
+        "studies at Delhi University"
+      ]
+    },
+    "q007": {
+      "search_query": "Support or assistance for a coffee grower with 4 hectares seeking eco-certification to sell to specialty buyers at better prices.",
+      "state": null,
+      "facts": [
+        "grows coffee",
+        "4 hectares land",
+        "wants eco-certification for farm"
+      ]
+    },
+    "q008": {
+      "search_query": "Fellowship for a Muslim student who has cleared UGC-NET to fund PhD",
+      "state": null,
+      "facts": [
+        "Muslim",
+        "student",
+        "cleared UGC-NET",
+        "wants fellowship to fund PhD"
+      ]
+    },
+    "q009": {
+      "search_query": "Government support or scheme for a farmer with irrigated land to set up a large cardamom seedling nursery",
+      "state": null,
+      "facts": [
+        "farmer",
+        "has irrigated land",
+        "wants to set up large cardamom seedling nursery"
+      ]
+    },
+    "q010": {
+      "search_query": "Scholarship for a class 7 student who is a member of a school stamp collecting club",
+      "state": null,
+      "facts": [
+        "daughter is in class 7",
+        "member of school stamp collecting club"
+      ]
+    },
+    "q011": {
+      "search_query": "Free training and certificate in electronics hardware and manufacturing for unemployed class 10 pass youth",
+      "state": null,
+      "facts": [
+        "passed class 10",
+        "unemployed",
+        "wants free training in electronics hardware and manufacturing",
+        "wants a certificate"
+      ]
+    },
+    "q012": {
+      "search_query": "Scholarship for a student from a poor family who scored in the top 20% in class 12 board exams and is starting a regular B.Tech degree.",
+      "state": null,
+      "facts": [
+        "scored in top 20% in class 12 board exams",
+        "comes from a poor family",
+        "starting regular B.Tech degree",
+        "needs scholarship"
+      ]
+    },
+    "q013": {
+      "search_query": "Loan schemes to start a small business for a 35-year-old Dalit man whose family is below the poverty line",
+      "state": null,
+      "facts": [
+        "age 35",
+        "male",
+        "Dalit",
+        "family is below the poverty line",
+        "wants to start a small business",
+        "needs a loan"
+      ]
+    },
+    "q014": {
+      "search_query": "Free residential skill training schemes for the wife of a registered construction worker",
+      "state": null,
+      "facts": [
+        "husband is a registered construction worker",
+        "seeking free residential skill training"
+      ]
+    },
+    "q015": {
+      "search_query": "Financial assistance for daughter's marriage for a registered construction worker.",
+      "state": null,
+      "facts": [
+        "registered construction worker",
+        "daughter getting married"
+      ]
+    },
+    "q016": {
+      "search_query": "A young person wants a free skill development course to get a job and has never done government training before.",
+      "state": null,
+      "facts": [
+        "young person",
+        "seeking a job",
+        "never done government training before"
+      ]
+    },
+    "q017": {
+      "search_query": "Subsidy for installing pollution control equipment for expanding a small manufacturing unit in Daman.",
+      "state": "Dadra & Nagar Haveli and Daman & Diu",
+      "facts": [
+        "expanding a small manufacturing unit",
+        "located in Daman",
+        "wants subsidy for installing pollution control equipment"
+      ]
+    },
+    "q018": {
+      "search_query": "Government support or schemes for new family enterprises and small home tailoring businesses with Udyam registration and existing bank loan",
+      "state": null,
+      "facts": [
+        "runs a small tailoring business at home",
+        "started business last year",
+        "has a bank loan",
+        "has Udyam registration"
+      ]
+    },
+    "q019": {
+      "search_query": "Government schemes that pay 35-year-old married women monthly financial assistance.",
+      "state": null,
+      "facts": [
+        "age 35",
+        "female",
+        "married"
+      ]
+    },
+    "q020": {
+      "search_query": "Incentive or subsidy for installing rooftop solar panels at home in Port Blair with reduced electricity use",
+      "state": "Andaman and Nicobar Islands",
+      "facts": [
+        "lives in Port Blair",
+        "installed rooftop solar panels at home",
+        "reduced electricity use"
+      ]
+    },
+    "q021": {
+      "search_query": "Pension schemes for a 55-year-old widow living in Leh with no income and a BPL card.",
+      "state": "Ladakh",
+      "facts": [
+        "age 55",
+        "widow",
+        "lives in Leh",
+        "no income",
+        "has BPL card"
+      ]
+    },
+    "q022": {
+      "search_query": "State government assistance schemes for farmers with 3 acres of land",
+      "state": null,
+      "facts": [
+        "farmer",
+        "owns 3 acres of land"
+      ]
+    },
+    "q023": {
+      "search_query": "Stipend for an OBC student doing vocational training at an ITI with parental income of ₹4 lakh per year",
+      "state": null,
+      "facts": [
+        "OBC student",
+        "doing vocational training at an ITI",
+        "parental annual income ₹4 lakh"
+      ]
+    },
+    "q024": {
+      "search_query": "Scheduled Tribe student doing a PhD at a university in Delhi seeking a research scholarship from their home state",
+      "state": null,
+      "facts": [
+        "Scheduled Tribe",
+        "PhD student",
+        "studying at a university in Delhi",
+        "seeking research scholarship from home state"
+      ]
+    },
+    "q025": {
+      "search_query": "Government schemes offering free vegetable seed kits or fruit plants for someone growing vegetables on a small plot.",
+      "state": null,
+      "facts": [
+        "grows vegetables on a small plot"
+      ]
+    },
+    "q026": {
+      "search_query": "Financial relief for the family of a registered construction worker who passed away from an illness",
+      "state": null,
+      "facts": [
+        "father was a registered construction worker",
+        "father passed away from an illness",
+        "seeking financial relief for family"
+      ]
+    },
+    "q027": {
+      "search_query": "Financial assistance for a person with a disability to enrol as an advocate after completing LLB",
+      "state": null,
+      "facts": [
+        "person with a disability",
+        "completed LLB",
+        "wants financial assistance to enrol as an advocate"
+      ]
+    },
+    "q028": {
+      "search_query": "Birhor tribal family with an Antyodaya ration card seeking subsidised food grains",
+      "state": null,
+      "facts": [
+        "Birhor tribe",
+        "has Antyodaya ration card"
+      ]
+    },
+    "q029": {
+      "search_query": "Financial assistance for daughter's wedding for a widow earning less than 1 lakh rupees a year.",
+      "state": null,
+      "facts": [
+        "widow",
+        "income less than 1 lakh rupees a year",
+        "needs money for daughter's wedding"
+      ]
+    },
+    "q030": {
+      "search_query": "Is there a pension for the family of a 40-year-old auto-rickshaw driver in Kolkata if something happens to him?",
+      "state": "West Bengal",
+      "facts": [
+        "age 40",
+        "auto-rickshaw driver",
+        "lives in Kolkata"
+      ]
+    },
+    "q031": {
+      "search_query": "Is there any monthly pension for a transgender person living in Agartala?",
+      "state": "Tripura",
+      "facts": [
+        "transgender person",
+        "lives in Agartala"
+      ]
+    },
+    "q032": {
+      "search_query": "Government schemes to start breeding ornamental fish with a Family ID and 200 square metres of land with water supply.",
+      "state": null,
+      "facts": [
+        "has a Family ID",
+        "has 200 square metres of land with water supply",
+        "wants to start breeding ornamental fish"
+      ]
+    },
+    "q033": {
+      "search_query": "Loan or subsidy for a Christian shopkeeper to rebuild a shop destroyed in a flood.",
+      "state": null,
+      "facts": [
+        "Christian",
+        "shopkeeper",
+        "shop destroyed in a flood",
+        "seeking loan or subsidy to rebuild shop"
+      ]
+    },
+    "q034": {
+      "search_query": "Government support and schemes for a farmer with 2 acres wishing to cultivate coriander and fenugreek for seed production.",
+      "state": null,
+      "facts": [
+        "farmer",
+        "has 2 acres of land",
+        "wants to grow dhaniya and methi for seed"
+      ]
+    },
+    "q035": {
+      "search_query": "What is the eligibility criteria for PM Kisan scheme?",
+      "state": null,
+      "facts": []
+    },
+    "q036": {
+      "search_query": "Ayushman card for 5 lakh health cover",
+      "state": null,
+      "facts": [
+        "seeking Ayushman card",
+        "looking for 5 lakh health cover"
+      ]
+    },
+    "q037": {
+      "search_query": "Loan without guarantee for street vendors.",
+      "state": null,
+      "facts": [
+        "street vendor"
+      ]
+    },
+    "q038": {
+      "search_query": "Government scheme for pension after age 60 for someone aged 30 years.",
+      "state": null,
+      "facts": [
+        "age 30",
+        "wants pension after 60 years of age"
+      ]
+    },
+    "q039": {
+      "search_query": "PhD fellowship for minority students who are NET qualified",
+      "state": null,
+      "facts": [
+        "minority",
+        "pursuing PhD",
+        "NET qualified"
+      ]
+    },
+    "q040": {
+      "search_query": "Free gas connection under Ujjwala scheme",
+      "state": null,
+      "facts": []
+    }
+  }
+}
