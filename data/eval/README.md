@@ -58,15 +58,17 @@ Results are written to `results/retrieval_<split>.json`.
 
 ## Eligibility cases
 
-Two sets of 42 labelled cases for evaluating the eligibility check:
+Two sets of 66 labelled cases (42 basic + 24 hard) for evaluating the eligibility check
+and the end-to-end assistant:
 
 | File | Purpose |
 |---|---|
 | `eligibility_dev.jsonl` | Tuning the prompt |
 | `eligibility_test.jsonl` | Held out; used only to report final numbers |
 
-Each line is an `EligibilityCase` (`src/scheme_assistant/models.py`): a user description,
-the user's state, one scheme, the correct verdict and a note explaining it.
+Each line is an `EligibilityCase` (`src/scheme_assistant/models.py`): a case kind, a
+user description, the user's state, one scheme, the correct verdict and a note
+explaining it.
 
 ### Construction
 
@@ -84,11 +86,22 @@ Routine conditions (citizenship, documents, bank account, portal registration, n
 already receiving the benefit) are assumed to be met unless stated otherwise. The same
 rules are given to the model in its prompt.
 
+These 42 `basic` cases each turn on one clearly stated fact. 24 harder cases per set were
+added on the same schemes, 6 of each kind and 8 of each verdict:
+
+| Kind | Example |
+|---|---|
+| `boundary` | Age exactly 40 where the limit is 40; "mid-fifties" where the limit is 55 |
+| `indirect` | ₹800 a day for 26 days against a monthly limit; 5 hectares against a 10-acre limit |
+| `hinglish` | "Mujhe bachpan se polio hai aur maine abhi LLB pass kiya hai" |
+| `multi_condition` | An age relaxation for SC applicants; an exception that ignores family income |
+
 ### Limitations
 
-- Each case turns on one clear fact, so the set is easy; near-perfect scores mean it
-  cannot yet separate strong models. Harder cases (values on a boundary, several
-  conditions at once, Hinglish descriptions) are needed.
+- 66 cases per set: one case is 1.5 points.
+- A few labels are judgement calls, e.g. e096 (NET result awaited: `need_more_info`,
+  though `not_eligible` is also defensible) and e111 (income "around ₹3 lakh" against a
+  ₹3 lakh limit).
 - Labels were written by an LLM and have not been reviewed by hand.
 - Labels follow the dataset text only, which may differ from the official rules.
 
@@ -133,15 +146,63 @@ asking about their unnamed home state, where Delhi is arguably correct).
 ### Eligibility check (`eligibility_<split>_<model>.json`)
 
 `uv run python -m scheme_assistant.evaluate_eligibility --split test --model <model>`.
-"False eligible" counts users wrongly told they qualify, the most harmful error.
+"False eligible" counts users wrongly told they qualify, the most harmful error. "No reply"
+counts cases where the model returned invalid JSON three times in a row (counted as wrong).
+Cost is per check at paid-tier list prices (Gemma is free only). Claude models run at
+effort `medium`; Gemini models at their defaults.
 
-| Set | Model | Accuracy | False eligible | Mean time |
-|---|---|---|---|---|
-| dev | gemini-3.5-flash-lite | 0.98 | 0 | 1.1 s |
-| dev | gemini-3.8-flash | 1.00 | 0 | 4.0 s |
-| test | gemini-3.5-flash-lite | 0.93 | 0 | 1.0 s |
-| test | gemini-3.8-flash | 1.00 | 0 | 3.9 s |
+| Model | Dev | Test | Test, hard cases | False eligible (dev + test) | No reply | Time | Cost per check |
+|---|---|---|---|---|---|---|---|
+| claude-opus-5-5 | 0.98 | **0.98** | 0.96 | 1 | 0 | 3.4 s | $0.0071 |
+| gemini-3.8-flash | 0.98 | **0.98** | 0.96 | 1 | 0 | 3.8 s | $0.0012 |
+| claude-haiku-5-5 | 0.97 | 0.94 | 0.96 | **0** | 0 | 2.5 s | **$0.0002** |
+| claude-sonnet-5-5 | 0.97 | 0.92 | 0.88 | 1 | 0 | 2.7 s | $0.0034 |
+| gemma-4-26b-a4b-it | 0.91 | 0.92 | 0.88 | 6 | 0 | 3.4 s | free |
+| gemini-3.5-flash-lite | 0.92 | 0.89 | 0.83 | 3 | 0 | **1.2 s** | $0.0003 |
+| gemma-4-31b-it | 0.91 | 0.82 | 0.75 | 3 | 12 | 4.5 s | free |
 
-All of Flash-Lite's errors were cautious: an eligible user was marked `need_more_info`
-because the model asked about a routine condition (portal registration, a caste
-certificate number, whether a family member already applied).
+Findings:
+
+- **Opus and Gemini Flash are the most accurate** (98% on both sets). Flash costs about a
+  sixth of Opus per check.
+- **Haiku is the best value**: 94-97% at the lowest price, and the only model with no false
+  "eligible" verdicts on either set.
+- **The open Gemma models are less accurate and less reliable.** Gemma 31B is right 95% of
+  the time when it replies, but 12 of its 132 replies were invalid JSON even after retries.
+  Gemma 26B (4B active parameters) replies reliably but gave the most false "eligible"
+  verdicts (6), and one dev run had very long replies (34 s per check on average).
+- **Common errors**: e111 (income "around ₹3 lakh" against a ₹3 lakh limit) is marked
+  eligible by most models. On e001 every Claude model asked whether the user pays income
+  tax, an exclusion the prompt says to assume; this is cautious, not harmful.
+- **Run-to-run variation**: re-running Flash-Lite on the same dev cases gave 0.97 and then
+  0.92. Differences of a few points between models are within this noise.
+
+### End to end (`pipeline_<split>_<model>.json`)
+
+`uv run python -m scheme_assistant.evaluate_pipeline --split test --model <model>`.
+
+Each case description goes through the full assistant (hybrid search with the given state,
+then eligibility checks on the top 10). A case succeeds when the user gets the right
+answer: for `eligible` and `need_more_info`, the scheme is found with that verdict; for
+`not_eligible`, the scheme is not shown as eligible.
+
+| Set | Model | Success | Scheme found | Verdict correct when found | False eligible | Time | Cost per question |
+|---|---|---|---|---|---|---|---|
+| dev | gemini-3.5-flash-lite | 0.83 | 0.85 | 0.96 | 0 | 3.2 s | ≈ $0.003 |
+| dev | gemini-3.8-flash | 0.85 | 0.85 | 0.98 | 0 | 13.8 s | ≈ $0.012 |
+| test | claude-haiku-5-5 | **0.94** | 0.94 | 0.98 | **0** | 8.0 s | $0.003 |
+| test | claude-opus-5-5 | **0.94** | 0.94 | 0.98 | 1 | 12.0 s | $0.096 |
+| test | gemini-3.8-flash | **0.94** | 0.94 | 0.98 | 1 | 15.2 s | ≈ $0.012 |
+| test | gemini-3.5-flash-lite | 0.89 | 0.94 | 0.94 | 1 | 2.9 s | ≈ $0.003 |
+| test | claude-sonnet-5-5 | 0.88 | 0.94 | 0.92 | 1 | 8.2 s | $0.039 |
+
+Each question runs 10 eligibility checks (5 in parallel). Gemini costs (≈) are estimated
+from the per-check cost measured in the eligibility runs; Claude costs are measured.
+
+**Findings:** Haiku, Opus and Flash tie at 94%; Haiku does it at 1/30 of Opus's cost
+with no false "eligible" verdicts, so it is the best default for the assistant. Search is
+now the bottleneck. With Flash, every failure but one or two is a
+scheme that search did not retrieve; when the scheme is found, the verdict is right 98% of
+the time. Search fails mostly on short, vague descriptions ("I work as a security guard
+and want a monthly pension when I am old") and on dev's Hinglish cases. Flash is about
+5 times slower than Flash-Lite because each question needs 10 eligibility checks.

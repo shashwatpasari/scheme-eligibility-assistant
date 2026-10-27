@@ -13,7 +13,7 @@ import argparse
 
 from pydantic import BaseModel
 
-from scheme_assistant.llm import DEFAULT_GEMINI_MODEL, GeminiClient, LLMClient
+from scheme_assistant.llm import DEFAULT_MODEL, LLMClient, make_llm
 from scheme_assistant.models import Scheme, Verdict
 from scheme_assistant.search import load_scheme
 
@@ -87,11 +87,13 @@ def main() -> int:
     parser.add_argument("scheme_id", help="scheme id, e.g. pm-kisan")
     parser.add_argument("description", help="the user's situation")
     parser.add_argument("--state", help="the state the user lives in")
-    parser.add_argument("--model", default=DEFAULT_GEMINI_MODEL, help="Gemini model name")
+    parser.add_argument(
+        "--model", default=DEFAULT_MODEL, help="model name (Gemini, Gemma or Claude)"
+    )
     args = parser.parse_args()
 
     scheme = load_scheme(args.scheme_id)
-    decision = check_eligibility(GeminiClient(args.model), scheme, args.description, args.state)
+    decision = check_eligibility(make_llm(args.model), scheme, args.description, args.state)
     print(decision.model_dump_json(indent=2))
     return 0
 

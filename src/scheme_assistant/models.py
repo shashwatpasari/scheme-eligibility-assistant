@@ -57,6 +57,13 @@ class RetrievalQuery(BaseModel):
 
 Verdict = Literal["eligible", "not_eligible", "need_more_info"]
 
+# basic            One clearly stated fact decides the verdict.
+# boundary         A value at or near a limit (e.g. age exactly 40, "mid-fifties").
+# indirect         A fact must be worked out (e.g. a daily wage to a monthly income).
+# hinglish         The description is written in Hinglish.
+# multi_condition  Several conditions or an exception in the rules must be combined.
+CaseKind = Literal["basic", "boundary", "indirect", "hinglish", "multi_condition"]
+
 
 class EligibilityCase(BaseModel):
     """A test case for the eligibility check: one user, one scheme, the correct verdict."""
@@ -64,6 +71,7 @@ class EligibilityCase(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     id: str = Field(pattern=r"^e\d{3}$")  # e.g. "e001"
+    kind: CaseKind
     scheme_id: str
     user_state: str | None = None
     user_description: str = Field(min_length=10)

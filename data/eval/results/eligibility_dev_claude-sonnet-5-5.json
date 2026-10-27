@@ -1,0 +1,577 @@
+{
+  "date": "2026-10-27",
+  "split": "dev",
+  "model": "claude-sonnet-5-5",
+  "mean_seconds": 2.54,
+  "usage": {
+    "calls": 66,
+    "input_tokens": 71260,
+    "output_tokens": 7217,
+    "cost_usd": 0.21469,
+    "cost_per_case_usd": 0.0032528787878787877
+  },
+  "metrics": {
+    "accuracy": 0.9696969696969697,
+    "recall": {
+      "eligible": 0.9090909090909091,
+      "not_eligible": 1.0,
+      "need_more_info": 1.0
+    },
+    "false_eligible": 0,
+    "confusion_matrix": {
+      "eligible": {
+        "eligible": 20,
+        "not_eligible": 0,
+        "need_more_info": 2
+      },
+      "not_eligible": {
+        "eligible": 0,
+        "not_eligible": 22,
+        "need_more_info": 0
+      },
+      "need_more_info": {
+        "eligible": 0,
+        "not_eligible": 0,
+        "need_more_info": 22
+      }
+    }
+  },
+  "accuracy_by_kind": {
+    "basic": 0.9761904761904762,
+    "boundary": 0.8333333333333334,
+    "hinglish": 1.0,
+    "indirect": 1.0,
+    "multi_condition": 1.0
+  },
+  "decisions": {
+    "e001": {
+      "kind": "basic",
+      "true": "eligible",
+      "verdict": "need_more_info",
+      "reason": "The person is 32, within the 18-40 age range, and a tailor likely works in the unorganized sector. However, the scheme requires that the applicant is not an income tax-payee, and this was not stated.",
+      "missing_information": [
+        "Are you an income tax payer?"
+      ]
+    },
+    "e002": {
+      "kind": "basic",
+      "true": "not_eligible",
+      "verdict": "not_eligible",
+      "reason": "The person is 47 years old, but the scheme allows joining only between ages 18 and 40, so the age condition is not met.",
+      "missing_information": []
+    },
+    "e003": {
+      "kind": "basic",
+      "true": "need_more_info",
+      "verdict": "need_more_info",
+      "reason": "Nothing the person said breaks a condition, but the scheme requires age 18-40 and not being an income tax payee, and neither is stated. Being a security guard fits the unorganized sector aim, and a savings account is assumed.",
+      "missing_information": [
+        "What is your age?",
+        "Do you pay income tax?"
+      ]
+    },
+    "e004": {
+      "kind": "basic",
+      "true": "eligible",
+      "verdict": "eligible",
+      "reason": "A domestic helper is an unorganised worker, aged 29 falls within 18-40, and monthly income of about ₹9,000 is under ₹15,000. Bank account and mobile phone are assumed as routine conditions.",
+      "missing_information": []
+    },
+    "e005": {
+      "kind": "basic",
+      "true": "not_eligible",
+      "verdict": "not_eligible",
+      "reason": "The scheme requires a monthly income of ₹15,000 or less, but the person earns ₹22,000 a month, which breaks that condition. Age 35 and work as a construction labourer meet the other conditions.",
+      "missing_information": []
+    },
+    "e006": {
+      "kind": "basic",
+      "true": "need_more_info",
+      "verdict": "need_more_info",
+      "reason": "The person is 26 (within 18-40) and a cycle rickshaw puller is an unorganised worker, and nothing breaks a condition. However, monthly income, a key condition (₹15,000 or less), was not stated.",
+      "missing_information": [
+        "What is your approximate monthly income?"
+      ]
+    },
+    "e007": {
+      "kind": "basic",
+      "true": "eligible",
+      "verdict": "eligible",
+      "reason": "The person farms 3 acres of cultivable land registered in their own name, which meets the only key condition of being a landholding farmer family with land in their name.",
+      "missing_information": []
+    },
+    "e008": {
+      "kind": "basic",
+      "true": "not_eligible",
+      "verdict": "not_eligible",
+      "reason": "The scheme requires a farmers' family to have cultivable land holding in their own name, but the person says they farm leased land and own no land.",
+      "missing_information": []
+    },
+    "e009": {
+      "kind": "basic",
+      "true": "need_more_info",
+      "verdict": "need_more_info",
+      "reason": "The scheme requires the farmer's family to have cultivable land holding in their name. The person says they work in farming but does not say whether they own cultivable land, and nothing they said breaks a condition.",
+      "missing_information": [
+        "Do you or your family own cultivable land in your name?",
+        "Is the land registered in your name, or do you work as a laborer or tenant on someone else's land?"
+      ]
+    },
+    "e010": {
+      "kind": "basic",
+      "true": "eligible",
+      "verdict": "eligible",
+      "reason": "The person is Sikh (a listed minority community), has qualified UGC-NET, and has never received a fellowship before. Nothing they said breaks a condition, and they are starting a PhD as a student, with no mention of being an employee.",
+      "missing_information": []
+    },
+    "e011": {
+      "kind": "basic",
+      "true": "not_eligible",
+      "verdict": "not_eligible",
+      "reason": "The person is a Muslim who cleared UGC-NET, but works as an assistant professor at a government college. The scheme excludes employees of any college, educational institution or government, even if they are on study leave.",
+      "missing_information": []
+    },
+    "e012": {
+      "kind": "basic",
+      "true": "need_more_info",
+      "verdict": "need_more_info",
+      "reason": "The person is Christian, a minority community covered by the scheme, and nothing they said breaks a condition. However, they have not said whether they qualified UGC-NET or Joint CSIR-UGC NET, whether they have received a fellowship before, or whether they are an employee of an educational institution or government.",
+      "missing_information": [
+        "Have you qualified the UGC-NET or Joint CSIR-UGC NET examination?",
+        "Have you previously availed any fellowship, fully or partially?",
+        "Are you currently employed by a university, college, educational institution, or central/state/UT government (including on study leave)?"
+      ]
+    },
+    "e013": {
+      "kind": "basic",
+      "true": "eligible",
+      "verdict": "eligible",
+      "reason": "The son is a regular student of class 7 (within Class 6-9) at a recognised school, is a member of the school philately club, and scored 78%, above the 60% minimum.",
+      "missing_information": []
+    },
+    "e014": {
+      "kind": "basic",
+      "true": "not_eligible",
+      "verdict": "not_eligible",
+      "reason": "The scheme is only for regular students of Class 6th-9th, and the person's daughter is in class 11, so she does not meet the class requirement.",
+      "missing_information": []
+    },
+    "e015": {
+      "kind": "basic",
+      "true": "need_more_info",
+      "verdict": "need_more_info",
+      "reason": "The son is in class 8 and scored 85%, which meets the class range and the 60% marks requirement. However, it is not stated whether his school is recognized and has a Philately Club that he belongs to, or whether he has his own Philately Deposit Account.",
+      "missing_information": [
+        "Is your son studying in a recognized school?",
+        "Does his school have a Philately Club, and is he a member of it?",
+        "If the school has no Philately Club, does he have his own Philately Deposit Account?"
+      ]
+    },
+    "e016": {
+      "kind": "basic",
+      "true": "eligible",
+      "verdict": "eligible",
+      "reason": "Top 10% in the Class 12 board puts the applicant above the 80th percentile, and they are in a regular B.Sc. degree at a recognised college. Family income of ₹3 lakh is within the ₹4.5 lakh limit. Renewal conditions do not apply to a new applicant.",
+      "missing_information": []
+    },
+    "e017": {
+      "kind": "basic",
+      "true": "not_eligible",
+      "verdict": "not_eligible",
+      "reason": "The scheme requires gross parental/family income not to exceed ₹4,50,000 per annum, but the person's parents earn ₹7 lakh a year, which breaks this condition.",
+      "missing_information": []
+    },
+    "e018": {
+      "kind": "basic",
+      "true": "need_more_info",
+      "verdict": "need_more_info",
+      "reason": "Being in the top 15% of the board puts the person above the 80th percentile, and they are pursuing a regular degree at a recognised college. However, the family income limit of ₹4,50,000 per annum is not covered.",
+      "missing_information": [
+        "What is your gross annual family (parental) income?"
+      ]
+    },
+    "e019": {
+      "kind": "basic",
+      "true": "eligible",
+      "verdict": "eligible",
+      "reason": "The person is 30 (within 18-55), belongs to a Scheduled Caste, holds a BPL card, and has a family income of ₹80,000, which is within the ₹1,00,000 limit. Residence in Punjab is covered, and no condition is broken.",
+      "missing_information": []
+    },
+    "e020": {
+      "kind": "basic",
+      "true": "not_eligible",
+      "verdict": "not_eligible",
+      "reason": "The applicant is 60 years old, which is outside the required age range of 18 to 55 years, so this condition is not met even though they are Scheduled Caste and hold a BPL card.",
+      "missing_information": []
+    },
+    "e021": {
+      "kind": "basic",
+      "true": "need_more_info",
+      "verdict": "need_more_info",
+      "reason": "The person meets the age condition (40, within 18-55) and the PwD category condition. However, BPL status and family income (needed unless they are unemployed and starting a business) are not stated, so those conditions cannot be confirmed.",
+      "missing_information": [
+        "Do you belong to a Below Poverty Line (BPL) household?",
+        "Are you currently unemployed, and what is your annual family income from all sources?"
+      ]
+    },
+    "e022": {
+      "kind": "basic",
+      "true": "eligible",
+      "verdict": "eligible",
+      "reason": "She is a married woman aged 34, which meets the marital status condition and the age range of 23 to under 60; residence in Madhya Pradesh is covered by her state.",
+      "missing_information": []
+    },
+    "e023": {
+      "kind": "basic",
+      "true": "not_eligible",
+      "verdict": "not_eligible",
+      "reason": "The scheme requires applicants to have completed 23 years and be under 60 as on January 1 of the application year, but the person is 20, which breaks the minimum age condition. Marital status is satisfied since she is married.",
+      "missing_information": []
+    },
+    "e024": {
+      "kind": "basic",
+      "true": "need_more_info",
+      "verdict": "need_more_info",
+      "reason": "She is a married woman residing in Madhya Pradesh, which meets the residency and marital status conditions, but her age (must be 23 or older and under 60 as on January 1 of the application year) has not been stated.",
+      "missing_information": [
+        "What is your age (or date of birth)?"
+      ]
+    },
+    "e025": {
+      "kind": "basic",
+      "true": "eligible",
+      "verdict": "eligible",
+      "reason": "She is a 52-year-old divorced woman (within the 40-79 age range and a distressed woman), holds a BPL card, and has no income; residence in Ladakh is covered.",
+      "missing_information": []
+    },
+    "e026": {
+      "kind": "basic",
+      "true": "not_eligible",
+      "verdict": "not_eligible",
+      "reason": "The scheme requires the applicant to have no source of income, but she earns ₹6,000 a month from weaving. She meets the age (45), widow and BPL conditions, but the income condition rules her out.",
+      "missing_information": []
+    },
+    "e027": {
+      "kind": "basic",
+      "true": "need_more_info",
+      "verdict": "need_more_info",
+      "reason": "She meets the age (60, within 40-79), widow status, and no-income conditions, and residence is covered. However, she has not said whether she belongs to the Below Poverty Line (BPL) category, which is a key condition.",
+      "missing_information": [
+        "Does your household belong to the Below Poverty Line (BPL) category?"
+      ]
+    },
+    "e028": {
+      "kind": "basic",
+      "true": "eligible",
+      "verdict": "eligible",
+      "reason": "The person is a Scheduled Tribe student of Nagaland in the first year of a Ph.D at a recognised university, which meets the category, course and fresh-candidate conditions. They have no other scholarship, and the three-time limit does not apply to a fresh applicant.",
+      "missing_information": []
+    },
+    "e029": {
+      "kind": "basic",
+      "true": "not_eligible",
+      "verdict": "not_eligible",
+      "reason": "The scheme is only for students pursuing a Ph.D/D.Litt. course, but the person is doing an M.A., so the course condition is not met.",
+      "missing_information": []
+    },
+    "e030": {
+      "kind": "basic",
+      "true": "need_more_info",
+      "verdict": "need_more_info",
+      "reason": "The person is pursuing a PhD at a recognized university (Nagaland University) in India, and nothing they said breaks a condition. However, they have not said whether they are a Scheduled Tribe or Indigenous student of Nagaland, or whether they are a fresh (first-year) applicant or a renewal applicant, or how many times they have already received this scholarship.",
+      "missing_information": [
+        "Do you belong to a Scheduled Tribe or are you an Indigenous student of Nagaland?",
+        "Are you in the first year of your PhD (fresh applicant) or renewing from a previous year under this scheme?",
+        "Have you already received this scholarship three times?"
+      ]
+    },
+    "e031": {
+      "kind": "basic",
+      "true": "eligible",
+      "verdict": "eligible",
+      "reason": "The person is a Muslim (religious minority), aged 38 (within 18-55), has family income of ₹3 lakh (under ₹8 lakh), and their shop was destroyed by a flood (natural calamity). Residence and exclusion conditions are assumed met.",
+      "missing_information": []
+    },
+    "e032": {
+      "kind": "basic",
+      "true": "not_eligible",
+      "verdict": "not_eligible",
+      "reason": "The applicant is 60 years old, which is outside the scheme's required age range of 18 to 55 years, so this condition is not met even though the other conditions appear satisfied.",
+      "missing_information": []
+    },
+    "e033": {
+      "kind": "basic",
+      "true": "need_more_info",
+      "verdict": "need_more_info",
+      "reason": "The person is a Jain (a religious minority) whose shop was destroyed by a natural calamity, and nothing they said breaks a condition. Age and family income, which are key conditions, are not stated. Whether family members work for the Central or State Government is assumed not to be a problem under the routine exclusions.",
+      "missing_information": [
+        "What is your age?",
+        "What is your total family income from all sources per year?"
+      ]
+    },
+    "e034": {
+      "kind": "basic",
+      "true": "eligible",
+      "verdict": "eligible",
+      "reason": "The person is a farmer in Bihar with 2 acres of land, which falls within the 0.25 to 10 acre range. Category allocations are quotas rather than eligibility conditions, and DBT portal registration is a routine condition assumed to be met.",
+      "missing_information": []
+    },
+    "e035": {
+      "kind": "basic",
+      "true": "not_eligible",
+      "verdict": "not_eligible",
+      "reason": "The scheme allows a maximum of 10 acres of agricultural land, and the person has 15 acres, which exceeds that limit.",
+      "missing_information": []
+    },
+    "e036": {
+      "kind": "basic",
+      "true": "need_more_info",
+      "verdict": "need_more_info",
+      "reason": "Nothing the person said breaks a condition, but the scheme requires the applicant to be a farmer with agricultural land between 0.25 and 10 acres, and these are not stated. Whether they are a farmer and how much land they have is unknown. The scheme also targets identified seed spices such as coriander and fenugreek, and it is unclear whether cumin and fennel are covered.",
+      "missing_information": [
+        "Are you currently a farmer?",
+        "How much agricultural land do you own or cultivate (in acres or hectares)?",
+        "Do you hold land documents (ryot) or a contract form (non-ryot) for the land?"
+      ]
+    },
+    "e037": {
+      "kind": "basic",
+      "true": "eligible",
+      "verdict": "eligible",
+      "reason": "The person has a visual disability, so they are a differently abled person, and they have completed an LLB, so they are a law graduate. These are the only two eligibility conditions in the scheme text, and both are met.",
+      "missing_information": []
+    },
+    "e038": {
+      "kind": "basic",
+      "true": "not_eligible",
+      "verdict": "not_eligible",
+      "reason": "The scheme is only for differently abled law graduates, and the person says they have no disability, so the disability condition is not met even though they hold an LLB.",
+      "missing_information": []
+    },
+    "e039": {
+      "kind": "basic",
+      "true": "need_more_info",
+      "verdict": "need_more_info",
+      "reason": "The person says they have a disability, which meets the differently abled condition, but nothing was said about being a law graduate, which is a key condition.",
+      "missing_information": [
+        "Have you completed a law degree (are you a law graduate)?",
+        "Are you seeking to enrol with the Bar Council as a lawyer?"
+      ]
+    },
+    "e040": {
+      "kind": "basic",
+      "true": "eligible",
+      "verdict": "eligible",
+      "reason": "The person has a Family ID, owns 300 square metres of vacant land (above the 150 sq m minimum) with a borewell providing water supply, and owns the land, so every key condition is met. Haryana residence is covered by the stated state.",
+      "missing_information": []
+    },
+    "e041": {
+      "kind": "basic",
+      "true": "not_eligible",
+      "verdict": "not_eligible",
+      "reason": "The scheme requires at least 150 square meters of vacant land with adequate water supply, but the person has only 80 square metres, which breaks the minimum land condition.",
+      "missing_information": []
+    },
+    "e042": {
+      "kind": "basic",
+      "true": "need_more_info",
+      "verdict": "need_more_info",
+      "reason": "The person lives in Haryana and says they will use their own land, but they have not said whether they have a valid Parivar Pehchan Patra, whether the land is at least 150 square meters and vacant with adequate water supply, or whether they own it or hold a registered lease of at least 7 years.",
+      "missing_information": [
+        "Do you have a valid Parivar Pehchan Patra (Family ID)?",
+        "How much vacant land do you have, in square meters, and does it have adequate water supply?",
+        "Do you own the land, or do you hold a registered lease deed valid for at least 7 years?"
+      ]
+    },
+    "e085": {
+      "kind": "boundary",
+      "true": "eligible",
+      "verdict": "need_more_info",
+      "reason": "The person is 40, which meets the 18-40 age limit, and works in the unorganized sector as a dhaba cook. However, the scheme requires that the applicant is not an income tax payee, and this was not stated.",
+      "missing_information": [
+        "Are you an income tax payer?"
+      ]
+    },
+    "e086": {
+      "kind": "boundary",
+      "true": "not_eligible",
+      "verdict": "not_eligible",
+      "reason": "The person is 41 years old, but Atal Pension Yojana requires the age of joining to be between 18 and 40 years, so the age condition is not met.",
+      "missing_information": []
+    },
+    "e087": {
+      "kind": "boundary",
+      "true": "eligible",
+      "verdict": "eligible",
+      "reason": "A street cobbler is an unorganised worker, aged 25 falls within 18 to 40, and income of exactly ₹15,000 meets the '₹15,000 or less' condition. Bank account and mobile phone are assumed to be in place.",
+      "missing_information": []
+    },
+    "e088": {
+      "kind": "boundary",
+      "true": "not_eligible",
+      "verdict": "not_eligible",
+      "reason": "The family income of ₹4,60,000 per year exceeds the maximum gross parental/family income limit of ₹4,50,000 per annum, which breaks an eligibility condition even though the percentile, regular course and AICTE-approved college conditions are met.",
+      "missing_information": []
+    },
+    "e089": {
+      "kind": "boundary",
+      "true": "need_more_info",
+      "verdict": "need_more_info",
+      "reason": "She is a married woman in Madhya Pradesh, which meets the residence and marital status conditions, but 'early twenties' does not show whether she has completed 23 years of age as on January 1 of the application year.",
+      "missing_information": [
+        "What is your exact age or date of birth?"
+      ]
+    },
+    "e090": {
+      "kind": "boundary",
+      "true": "need_more_info",
+      "verdict": "need_more_info",
+      "reason": "The person is Scheduled Caste, BPL, and has family income of ₹60,000 (within the ₹1,00,000 limit), so no condition is broken. However, 'mid-fifties' could be 54-56, so it is unclear whether the age falls within the 18 to 55 limit.",
+      "missing_information": [
+        "What is your exact age?"
+      ]
+    },
+    "e091": {
+      "kind": "indirect",
+      "true": "not_eligible",
+      "verdict": "not_eligible",
+      "reason": "The person farms 5 hectares, which is above the maximum of 10 acres (4 ha) allowed under the scheme's land condition, so they do not qualify.",
+      "missing_information": []
+    },
+    "e092": {
+      "kind": "indirect",
+      "true": "not_eligible",
+      "verdict": "not_eligible",
+      "reason": "A daily wage labourer is an unorganised worker aged 30, which fits the 18-40 age range. However, earning about ₹800 a day for 26 days gives roughly ₹20,800 a month, which is above the ₹15,000 monthly income limit.",
+      "missing_information": []
+    },
+    "e093": {
+      "kind": "indirect",
+      "true": "eligible",
+      "verdict": "eligible",
+      "reason": "She is a widow aged 58 (within 40-79), holds a BPL card, and says no one in her family earns anything, so she has no source of income. Residence in Ladakh is covered by the state given.",
+      "missing_information": []
+    },
+    "e094": {
+      "kind": "indirect",
+      "true": "eligible",
+      "verdict": "eligible",
+      "reason": "The person says the 4-acre cultivable farm is now in their name and they cultivate it, which meets the only stated condition of having cultivable land holding in their own name.",
+      "missing_information": []
+    },
+    "e095": {
+      "kind": "indirect",
+      "true": "eligible",
+      "verdict": "eligible",
+      "reason": "The son is a regular student in class 6 (within 6th-9th) at a recognised school, has his own philately deposit account since the school has no club, and scored 64%, above the 60% minimum.",
+      "missing_information": []
+    },
+    "e096": {
+      "kind": "indirect",
+      "true": "need_more_info",
+      "verdict": "need_more_info",
+      "reason": "The person is Muslim, so the minority community condition is met, and nothing they said breaks a condition. However, they are still waiting for the UGC-NET result, so it is not confirmed that they have qualified. Whether they have earlier availed another fellowship is also not stated.",
+      "missing_information": [
+        "Have you qualified the UGC-NET or Joint CSIR-UGC NET exam once the result is declared?",
+        "Have you previously availed any fellowship, fully or partially?",
+        "Are you currently employed by any university, college, educational institution or government?"
+      ]
+    },
+    "e097": {
+      "kind": "hinglish",
+      "true": "need_more_info",
+      "verdict": "need_more_info",
+      "reason": "Nothing the person said breaks a condition, but the scheme requires age between 18 and 40 years and not being an income tax payer, and neither is stated. Working in a shop fits the unorganized sector goal, but age and income tax status are unknown.",
+      "missing_information": [
+        "What is your age?",
+        "Do you pay income tax?"
+      ]
+    },
+    "e098": {
+      "kind": "hinglish",
+      "true": "need_more_info",
+      "verdict": "need_more_info",
+      "reason": "She is married and lives in Madhya Pradesh, which meets the residence and marital status conditions, but her age is not stated and the scheme requires her to be at least 23 and under 60 as on January 1 of the application year.",
+      "missing_information": [
+        "What is your age (or date of birth)?"
+      ]
+    },
+    "e099": {
+      "kind": "hinglish",
+      "true": "not_eligible",
+      "verdict": "not_eligible",
+      "reason": "The scheme is for students pursuing a Ph.D/D.Litt. course, but the person is currently doing an MSc, so the course condition is not met even though they are a Scheduled Tribe student of Nagaland.",
+      "missing_information": []
+    },
+    "e100": {
+      "kind": "hinglish",
+      "true": "need_more_info",
+      "verdict": "need_more_info",
+      "reason": "He is 40 (within 18-55), Muslim (a religious minority) and lost his shop in a flood (a natural calamity), so no condition is broken. However, his family income, which must not exceed ₹8,00,000, was not stated.",
+      "missing_information": [
+        "What is your total annual family income from all sources?"
+      ]
+    },
+    "e101": {
+      "kind": "hinglish",
+      "true": "eligible",
+      "verdict": "eligible",
+      "reason": "The person has polio since childhood, which makes them differently abled, and has just passed LLB, so they are a law graduate. Both eligibility conditions are met and none is broken.",
+      "missing_information": []
+    },
+    "e102": {
+      "kind": "hinglish",
+      "true": "not_eligible",
+      "verdict": "not_eligible",
+      "reason": "The scheme requires the family to hold cultivable land in its own name, but the person says the land is in his uncle's name and not his own, so the landholding condition is not met.",
+      "missing_information": []
+    },
+    "e103": {
+      "kind": "multi_condition",
+      "true": "eligible",
+      "verdict": "eligible",
+      "reason": "The person is 45 (within 18-55), has a disability (meets the SC or PwD condition), and is from a BPL family. Although the father's income of ₹1.5 lakh exceeds ₹1 lakh, family income is not considered for an unemployed applicant starting their own business, so no condition is broken.",
+      "missing_information": []
+    },
+    "e104": {
+      "kind": "multi_condition",
+      "true": "not_eligible",
+      "verdict": "not_eligible",
+      "reason": "The scheme requires the applicant to be pursuing regular degree courses, but the person is doing a B.Sc. by distance learning, which is not a regular course. The percentile and family income conditions are met.",
+      "missing_information": []
+    },
+    "e105": {
+      "kind": "multi_condition",
+      "true": "not_eligible",
+      "verdict": "not_eligible",
+      "reason": "The person is a Buddhist (minority community) and cleared UGC-NET, but says they already received a state fellowship during their M.Phil. The scheme excludes anyone who has completely or partially availed any fellowship earlier.",
+      "missing_information": []
+    },
+    "e106": {
+      "kind": "multi_condition",
+      "true": "need_more_info",
+      "verdict": "need_more_info",
+      "reason": "She is a 50-year-old woman (within 40-79) deserted by her husband (a distressed woman) with no income, so none of these conditions is broken. However, she has not said whether she belongs to the Below Poverty Line (BPL) category, which is a key condition.",
+      "missing_information": [
+        "Do you belong to the Below Poverty Line (BPL) category, for example do you hold a BPL card?"
+      ]
+    },
+    "e107": {
+      "kind": "multi_condition",
+      "true": "need_more_info",
+      "verdict": "need_more_info",
+      "reason": "The person has a Family ID, 200 sq m of land (above the 150 sq m minimum) with water supply, and lives in Haryana. However, the land is leased and it is not stated whether the lease is registered and valid for at least 7 years.",
+      "missing_information": [
+        "Is your lease deed registered?",
+        "How many years is the lease valid for (is it at least 7 years)?"
+      ]
+    },
+    "e108": {
+      "kind": "multi_condition",
+      "true": "eligible",
+      "verdict": "eligible",
+      "reason": "The person is a Scheduled Tribe (Ao Naga) student of Nagaland, newly enrolled in the first year of a PhD at Delhi University (a recognized university in India), so they qualify as a fresh candidate. They receive no other scholarship, and nothing indicates prior use of this scholarship or government employment.",
+      "missing_information": []
+    }
+  }
+}

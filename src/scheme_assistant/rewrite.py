@@ -14,7 +14,7 @@ import argparse
 
 from pydantic import BaseModel
 
-from scheme_assistant.llm import DEFAULT_GEMINI_MODEL, GeminiClient, LLMClient
+from scheme_assistant.llm import DEFAULT_MODEL, LLMClient, make_llm
 
 # State and UT names exactly as they appear in the scheme data.
 STATES = [
@@ -111,10 +111,12 @@ def rewrite_query(llm: LLMClient, query: str) -> QueryRewrite:
 def main() -> int:
     parser = argparse.ArgumentParser(description="Rewrite a question for scheme search.")
     parser.add_argument("query", help="the user's question")
-    parser.add_argument("--model", default=DEFAULT_GEMINI_MODEL, help="Gemini model name")
+    parser.add_argument(
+        "--model", default=DEFAULT_MODEL, help="model name (Gemini, Gemma or Claude)"
+    )
     args = parser.parse_args()
 
-    rewrite = rewrite_query(GeminiClient(args.model), args.query)
+    rewrite = rewrite_query(make_llm(args.model), args.query)
     print(rewrite.model_dump_json(indent=2))
     return 0
 

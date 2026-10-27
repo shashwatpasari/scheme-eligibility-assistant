@@ -11,7 +11,7 @@ from scheme_assistant.eligibility import (
     check_eligibility,
 )
 from scheme_assistant.evaluate import SPLITS
-from scheme_assistant.evaluate_eligibility import compute_metrics, load_cases
+from scheme_assistant.evaluate_eligibility import NO_REPLY, compute_metrics, load_cases
 from scheme_assistant.models import EligibilityCase
 from scheme_assistant.search import SCHEMES_DIR, load_scheme
 from tests.fake_llm import FakeLLM
@@ -66,13 +66,24 @@ def test_compute_metrics_counts_false_eligible():
     assert compute_metrics(true, predicted)["false_eligible"] == 2
 
 
+def test_compute_metrics_counts_no_reply_as_wrong():
+    metrics = compute_metrics(["eligible", "eligible"], ["eligible", NO_REPLY])
+    assert metrics["accuracy"] == 0.5
+    assert metrics["no_reply"] == 1
+
+
 # --- labelled cases -------------------------------------------------------------
 
 
 @pytest.mark.parametrize("split", SPLITS)
 def test_each_split_is_balanced(split: str):
-    counts = Counter(case.verdict for case in CASES_BY_SPLIT[split])
-    assert counts == {"eligible": 14, "not_eligible": 14, "need_more_info": 14}
+    for kind_cases in [
+        [case for case in CASES_BY_SPLIT[split] if case.kind == "basic"],
+        [case for case in CASES_BY_SPLIT[split] if case.kind != "basic"],
+    ]:
+        counts = Counter(case.verdict for case in kind_cases)
+        assert set(counts) == {"eligible", "not_eligible", "need_more_info"}
+        assert len(set(counts.values())) == 1, f"unbalanced verdicts: {counts}"
 
 
 def test_case_ids_are_unique_across_splits():

@@ -2,317 +2,558 @@
   "date": "2026-10-27",
   "split": "dev",
   "model": "gemini-3.8-flash",
-  "mean_seconds": 3.97,
+  "mean_seconds": 4.24,
+  "usage": {
+    "calls": 66,
+    "input_tokens": 31600,
+    "output_tokens": 18528,
+    "cost_usd": 0.09318,
+    "cost_per_case_usd": 0.0014118181818181818
+  },
   "metrics": {
-    "accuracy": 1.0,
+    "accuracy": 0.9848484848484849,
     "recall": {
       "eligible": 1.0,
       "not_eligible": 1.0,
-      "need_more_info": 1.0
+      "need_more_info": 0.9545454545454546
     },
     "false_eligible": 0,
     "confusion_matrix": {
       "eligible": {
-        "eligible": 14,
+        "eligible": 22,
         "not_eligible": 0,
         "need_more_info": 0
       },
       "not_eligible": {
         "eligible": 0,
-        "not_eligible": 14,
+        "not_eligible": 22,
         "need_more_info": 0
       },
       "need_more_info": {
         "eligible": 0,
-        "not_eligible": 0,
-        "need_more_info": 14
+        "not_eligible": 1,
+        "need_more_info": 21
       }
     }
   },
+  "accuracy_by_kind": {
+    "basic": 1.0,
+    "boundary": 1.0,
+    "hinglish": 1.0,
+    "indirect": 0.8333333333333334,
+    "multi_condition": 1.0
+  },
   "decisions": {
     "e001": {
+      "kind": "basic",
       "true": "eligible",
       "verdict": "eligible",
-      "reason": "You meet the age requirement of 18 to 40 years to join the Atal Pension Yojana and can contribute until the age of 60.",
+      "reason": "You are 32 years old, which falls within the eligible joining age group of 18 to 40 years, and you are eligible to contribute until age 60 for retirement pension benefits.",
       "missing_information": []
     },
     "e002": {
+      "kind": "basic",
       "true": "not_eligible",
       "verdict": "not_eligible",
       "reason": "The maximum age limit for joining the Atal Pension Yojana is 40 years, but you are 47 years old.",
       "missing_information": []
     },
     "e003": {
+      "kind": "basic",
       "true": "need_more_info",
       "verdict": "need_more_info",
-      "reason": "Eligibility for Atal Pension Yojana requires you to be between 18 and 40 years of age and not be an income tax-payee. Your age and tax-paying status are not specified.",
+      "reason": "The scheme requires applicants to be between 18 and 40 years of age and not be an income tax-payee. Your age and tax-paying status need to be verified.",
       "missing_information": [
         "What is your age?",
-        "Are you an income tax-payer?"
+        "Are you an income tax-payee?"
       ]
     },
     "e004": {
+      "kind": "basic",
       "true": "eligible",
       "verdict": "eligible",
-      "reason": "You meet the eligibility criteria as an unorganised worker (domestic helper) aged between 18 and 40 years (age 29) with a monthly income under ₹15,000 (earning ₹9,000).",
+      "reason": "You are an unorganised worker (domestic helper) aged 29 (between 18 and 40 years) and earn ₹9,000 per month, which is within the ₹15,000 limit.",
       "missing_information": []
     },
     "e005": {
+      "kind": "basic",
       "true": "not_eligible",
       "verdict": "not_eligible",
-      "reason": "The applicant's monthly income of ₹22,000 exceeds the maximum permissible limit of ₹15,000 per month.",
+      "reason": "The scheme requires a monthly income of ₹15,000 or less, but the applicant earns ₹22,000 per month.",
       "missing_information": []
     },
     "e006": {
+      "kind": "basic",
       "true": "need_more_info",
       "verdict": "need_more_info",
-      "reason": "You satisfy the occupation and age requirements, but you have not specified your monthly income. The scheme requires a monthly income of ₹15,000 or less.",
+      "reason": "The applicant meets the age criteria (26 years) and is an unorganised worker, but their monthly income is not specified to verify if it is ₹15,000 or less.",
       "missing_information": [
         "What is your monthly income?"
       ]
     },
     "e007": {
+      "kind": "basic",
       "true": "eligible",
       "verdict": "eligible",
-      "reason": "You are a landholding farmer with cultivable land registered in your own name, which satisfies the scheme's eligibility criteria.",
+      "reason": "You are a landholding farmer with cultivable land registered in your own name, fulfilling the eligibility criteria for the scheme.",
       "missing_information": []
     },
     "e008": {
+      "kind": "basic",
       "true": "not_eligible",
       "verdict": "not_eligible",
-      "reason": "The scheme requires beneficiary families to have cultivable landholding in their own names. As a tenant farmer who does not own any land, you do not meet this requirement.",
+      "reason": "The scheme requires beneficiary families to have cultivable land holding in their own names, but you farm on lease and do not own any land.",
       "missing_information": []
     },
     "e009": {
+      "kind": "basic",
       "true": "need_more_info",
       "verdict": "need_more_info",
-      "reason": "The scheme requires the farmer's family to have cultivable land holding registered in their names. You mentioned working in farming, but have not specified whether you own cultivable land.",
+      "reason": "The scheme requires applicants to be part of a landholding farmer family with cultivable land held in their name. You have mentioned working in farming, but have not confirmed whether you hold cultivable land in your name.",
       "missing_information": [
-        "Do you or your family own cultivable land registered in your name?"
+        "Do you or your family own cultivable land in your name?"
       ]
     },
     "e010": {
+      "kind": "basic",
       "true": "eligible",
       "verdict": "eligible",
-      "reason": "You are a Sikh student belonging to a notified minority community, have cleared the UGC-NET examination, and have not previously availed any fellowship.",
+      "reason": "You belong to an eligible minority community (Sikh), have qualified the UGC-NET examination, and have not previously availed of any fellowship.",
       "missing_information": []
     },
     "e011": {
+      "kind": "basic",
       "true": "not_eligible",
       "verdict": "not_eligible",
-      "reason": "You are employed as an assistant professor at a government college, but employees of any university, college, educational institution, or government are explicitly ineligible for this fellowship.",
+      "reason": "Employees of any university, college, educational institution, or government are not eligible for the fellowship, even if on leave to pursue a Ph.D.",
       "missing_information": []
     },
     "e012": {
+      "kind": "basic",
       "true": "need_more_info",
       "verdict": "need_more_info",
-      "reason": "The applicant belongs to an eligible minority community, but it is not clear whether they have qualified the UGC-NET or Joint CSIR-UGC NET examination.",
+      "reason": "You meet the minority community requirement as a Christian student, but you have not specified whether you have qualified the UGC-NET or Joint CSIR-UGC NET examination.",
       "missing_information": [
         "Have you qualified the UGC-NET or Joint CSIR-UGC NET examination?"
       ]
     },
     "e013": {
+      "kind": "basic",
       "true": "eligible",
       "verdict": "eligible",
-      "reason": "The applicant is a student in Class 7 at a recognized school, is a member of the school's Philately Club, and scored 78% in the recent final exam (exceeding the 60% requirement).",
+      "reason": "The applicant meets all eligibility criteria: he is a student in class 7 at a recognized school, is an active member of the school's philately club, and scored above the required 60% in his recent final exam.",
       "missing_information": []
     },
     "e014": {
+      "kind": "basic",
       "true": "not_eligible",
       "verdict": "not_eligible",
-      "reason": "The applicant must be a regular student of Class 6th to 9th, but your daughter is currently in Class 11.",
+      "reason": "The applicant must be a regular student of Class 6th to 9th, but the daughter is currently in Class 11.",
       "missing_information": []
     },
     "e015": {
+      "kind": "basic",
       "true": "need_more_info",
       "verdict": "need_more_info",
-      "reason": "The applicant meets the class and marks criteria, but it is not confirmed whether he is a member of his school's Philately Club or has a Philately Deposit Account.",
+      "reason": "The applicant meets the grade and academic score requirements, but it needs to be confirmed whether he is enrolled in a recognized school and whether he is a member of a school Philately Club or holds a Philately Deposit Account.",
       "missing_information": [
-        "Is your son a member of his school's Philately Club, or does he have a Philately Deposit Account?"
+        "Is your son a member of a Philately Club at his school, or does he have his own Philately Deposit Account?",
+        "Is he a regular student in a recognized school?"
       ]
     },
     "e016": {
+      "kind": "basic",
       "true": "eligible",
       "verdict": "eligible",
-      "reason": "You are in the top 10% (above the 80th percentile) in Class 12, enrolled in a regular degree course at a recognized college, and your annual family income of ₹3 lakh is well within the ₹4,50,000 limit.",
+      "reason": "You are above the 80th percentile (top 10%) in Class 12, pursuing a regular degree course at a recognized college, and your family income is under the ₹4,50,000 per annum limit.",
       "missing_information": []
     },
     "e017": {
+      "kind": "basic",
       "true": "not_eligible",
       "verdict": "not_eligible",
-      "reason": "The gross parental/family income of the applicant must not exceed ₹4,50,000 per annum, but your parents earn ₹7 lakh per year.",
+      "reason": "The gross parental/family income of the applicant must not exceed ₹4,50,000 per annum, but your parents earn ₹7 lakh a year.",
       "missing_information": []
     },
     "e018": {
+      "kind": "basic",
       "true": "need_more_info",
       "verdict": "need_more_info",
-      "reason": "You satisfy the academic percentile and regular course criteria, but you have not specified your gross parental or family annual income, which must not exceed ₹4,50,000 per annum.",
+      "reason": "You meet the academic percentile and course enrollment criteria, but you have not specified your family income. The scheme requires gross parental or family income not to exceed ₹4,50,000 per annum.",
       "missing_information": [
-        "What is your gross parental or family annual income?"
+        "What is your gross parental/family annual income?"
       ]
     },
     "e019": {
+      "kind": "basic",
       "true": "eligible",
       "verdict": "eligible",
-      "reason": "You satisfy all key eligibility criteria: you reside in Punjab, are 30 years old (between 18 and 55), belong to the Scheduled Caste category, hold a BPL card, and have an annual family income under ₹1,00,000.",
+      "reason": "The applicant is a 30-year-old resident of Punjab from the Scheduled Caste category with a BPL card and an annual family income of ₹80,000, fulfilling all eligibility criteria.",
       "missing_information": []
     },
     "e020": {
+      "kind": "basic",
       "true": "not_eligible",
       "verdict": "not_eligible",
-      "reason": "The applicant must be between 18 and 55 years of age to be eligible for the scheme, but you are 60 years old.",
+      "reason": "You are 60 years old, which exceeds the scheme's eligible age limit of 18 to 55 years.",
       "missing_information": []
     },
     "e021": {
+      "kind": "basic",
       "true": "need_more_info",
       "verdict": "need_more_info",
-      "reason": "You satisfy the age and disability criteria, but the scheme requires applicants to belong to the Below Poverty Line (BPL) category.",
+      "reason": "The applicant meets the age and disability criteria, but it is not clear whether they belong to the Below Poverty Line (BPL) category.",
       "missing_information": [
         "Do you belong to the Below Poverty Line (BPL) category?"
       ]
     },
     "e022": {
+      "kind": "basic",
       "true": "eligible",
       "verdict": "eligible",
-      "reason": "You meet all the eligibility criteria: you are a resident of Madhya Pradesh, a married woman, and within the required age bracket of 23 to 60 years.",
+      "reason": "The applicant is a resident of Madhya Pradesh, is a married woman, and falls within the eligible age group of 23 to 59 years.",
       "missing_information": []
     },
     "e023": {
+      "kind": "basic",
       "true": "not_eligible",
       "verdict": "not_eligible",
       "reason": "You are 20 years old, but the scheme requires applicants to have completed at least 23 years of age.",
       "missing_information": []
     },
     "e024": {
+      "kind": "basic",
       "true": "need_more_info",
       "verdict": "need_more_info",
-      "reason": "You meet the marital status and residency requirements, but you have not specified your age. Applicants must be between 23 and 60 years of age.",
+      "reason": "You meet the marital status and residency requirements, but you need to confirm whether your age is between 23 and 60 years.",
       "missing_information": [
         "What is your age?"
       ]
     },
     "e025": {
+      "kind": "basic",
       "true": "eligible",
       "verdict": "eligible",
-      "reason": "You satisfy all key eligibility criteria: being a resident of Ladakh, a divorced woman aged between 40 and 79 years (52 years old), belonging to the BPL category, and having no source of income.",
+      "reason": "You satisfy all criteria: you reside in Ladakh, are a divorced woman aged 52 (between 40 and 79 years), belong to the BPL category, and have no source of income.",
       "missing_information": []
     },
     "e026": {
+      "kind": "basic",
       "true": "not_eligible",
       "verdict": "not_eligible",
-      "reason": "The scheme requires applicants to have no source of income, but you earn ₹6,000 a month from weaving.",
+      "reason": "The scheme requires the applicant to have no source of income, but you earn ₹6,000 a month by weaving.",
       "missing_information": []
     },
     "e027": {
+      "kind": "basic",
       "true": "need_more_info",
       "verdict": "need_more_info",
-      "reason": "You satisfy the age, residency, marital status, and income conditions, but you have not specified whether you belong to the Below Poverty Line (BPL) category.",
+      "reason": "You satisfy the age, residency, marital status, and no-income criteria, but it is not clear whether you belong to the Below Poverty Line (BPL) category.",
       "missing_information": [
         "Do you belong to the Below Poverty Line (BPL) category?"
       ]
     },
     "e028": {
+      "kind": "basic",
       "true": "eligible",
       "verdict": "eligible",
-      "reason": "You are a Scheduled Tribe student of Nagaland enrolled in the first year of a Ph.D. program at a recognized university and do not receive any other scholarship.",
+      "reason": "You are a Scheduled Tribe student from Nagaland enrolled in the first year of your Ph.D. at a recognized university, and you do not receive any other scholarship.",
       "missing_information": []
     },
     "e029": {
+      "kind": "basic",
       "true": "not_eligible",
       "verdict": "not_eligible",
-      "reason": "The scholarship is only available to students pursuing a Ph.D. or D.Litt. course, but you are currently pursuing an M.A.",
+      "reason": "The scholarship is only available for students pursuing a Ph.D. or D.Litt. course, but you are currently pursuing an M.A.",
       "missing_information": []
     },
     "e030": {
+      "kind": "basic",
       "true": "need_more_info",
       "verdict": "need_more_info",
-      "reason": "The scholarship is reserved for Scheduled Tribe and Indigenous students of Nagaland, and fresh applicants must be enrolled in the first year of their course. Your caste/indigenous category and current year of PhD study were not specified.",
+      "reason": "The scholarship is specifically for Scheduled Tribe and Indigenous students of Nagaland pursuing Ph.D/D.Litt. courses. Your category status and whether you are an Indigenous inhabitant of Nagaland have not been specified.",
       "missing_information": [
-        "Are you a Scheduled Tribe or an Indigenous student of Nagaland?",
-        "Which year of your Ph.D. course are you currently enrolled in?"
+        "Are you a Scheduled Tribe (ST) and an Indigenous student of Nagaland?",
+        "Are you enrolled in the first year of your Ph.D. course (if applying as fresh) or a previous year beneficiary (if renewing)?"
       ]
     },
     "e031": {
+      "kind": "basic",
       "true": "eligible",
       "verdict": "eligible",
-      "reason": "You are a resident of Karnataka belonging to a religious minority, aged 38 (within the 18–55 year limit), your shop was damaged by a natural calamity, and your family income is within the ₹8,00,000 threshold.",
+      "reason": "You are a resident of Karnataka belonging to a religious minority, aged 38 (within 18–55 years), your annual family income is ₹3 lakh (below the ₹8 lakh limit), and your shop was destroyed by a natural calamity.",
       "missing_information": []
     },
     "e032": {
+      "kind": "basic",
       "true": "not_eligible",
       "verdict": "not_eligible",
-      "reason": "The applicant must be between 18 and 55 years of age to be eligible for the scheme, but the person is 60 years old.",
+      "reason": "You are 60 years old, which exceeds the scheme's maximum age limit of 55 years.",
       "missing_information": []
     },
     "e033": {
+      "kind": "basic",
       "true": "need_more_info",
       "verdict": "need_more_info",
-      "reason": "You meet the minority and property damage criteria, but your age and annual family income must be confirmed to determine eligibility.",
+      "reason": "You need to confirm your age and your annual family income to verify eligibility under the scheme.",
       "missing_information": [
         "What is your age?",
-        "What is your total annual family income?"
+        "What is your annual family income from all sources?"
       ]
     },
     "e034": {
+      "kind": "basic",
       "true": "eligible",
       "verdict": "eligible",
-      "reason": "You are a resident farmer of Bihar with 2 acres of land, which meets the requirement of having between 0.25 and 10 acres of land.",
+      "reason": "You are a farmer residing in Bihar with 2 acres of agricultural land, which falls within the required range of 0.25 to 10 acres.",
       "missing_information": []
     },
     "e035": {
+      "kind": "basic",
       "true": "not_eligible",
       "verdict": "not_eligible",
-      "reason": "The scheme requires farmers to have a maximum of 10 acres of agricultural land, but you have 15 acres.",
+      "reason": "The scheme specifies that the applicant must have a maximum of 10 acres of agricultural land, but you own 15 acres.",
       "missing_information": []
     },
     "e036": {
+      "kind": "basic",
       "true": "need_more_info",
       "verdict": "need_more_info",
-      "reason": "You need to confirm whether you are a farmer and how much agricultural land you have (which must be between 0.25 acres and 10 acres).",
+      "reason": "Eligibility requires being a farmer and holding between 0.25 acres and 10 acres of agricultural land. The applicant's farmer status and landholding size are not provided.",
       "missing_information": [
         "Are you a farmer?",
-        "How much agricultural land do you own or cultivate on contract?"
+        "How much agricultural land do you own or cultivate?"
       ]
     },
     "e037": {
+      "kind": "basic",
       "true": "eligible",
       "verdict": "eligible",
-      "reason": "You are a differently abled person and a law graduate residing in Tamil Nadu, satisfying all eligibility criteria for the scheme.",
+      "reason": "You are a resident of Tamil Nadu, a differently abled person, and a law graduate, fulfilling all the specified eligibility criteria for this scheme.",
       "missing_information": []
     },
     "e038": {
+      "kind": "basic",
       "true": "not_eligible",
       "verdict": "not_eligible",
-      "reason": "The scheme specifically requires the applicant to be a differently abled person, but you stated that you do not have any disability.",
+      "reason": "The scheme requires the applicant to be a differently abled person, but you stated that you do not have any disability.",
       "missing_information": []
     },
     "e039": {
+      "kind": "basic",
       "true": "need_more_info",
       "verdict": "need_more_info",
-      "reason": "You meet the disability requirement, but it is not specified whether you are a law graduate.",
+      "reason": "You have stated that you are a person with a disability, but the scheme specifically requires applicants to be law graduates. It is not clear whether you hold a degree in law.",
       "missing_information": [
         "Are you a law graduate?"
       ]
     },
     "e040": {
+      "kind": "basic",
       "true": "eligible",
       "verdict": "eligible",
-      "reason": "You reside in Haryana, have a valid Family ID, and own at least 150 square meters of vacant land with a water supply.",
+      "reason": "You meet all the eligibility criteria: you are a resident of Haryana with a Family ID, and you own 300 square meters of vacant land with an adequate water supply (borewell), which exceeds the minimum requirement of 150 square meters.",
       "missing_information": []
     },
     "e041": {
+      "kind": "basic",
       "true": "not_eligible",
       "verdict": "not_eligible",
-      "reason": "You only have 80 square meters of land, whereas the scheme requires at least 150 square meters of vacant land.",
+      "reason": "You have 80 square meters of land, but the scheme requires at least 150 square meters of vacant land.",
       "missing_information": []
     },
     "e042": {
+      "kind": "basic",
       "true": "need_more_info",
       "verdict": "need_more_info",
-      "reason": "You need to confirm if you have at least 150 square meters of vacant land with adequate water supply for setting up the rearing unit.",
+      "reason": "The scheme requires at least 150 square meters of vacant land with an adequate water supply, either owned or on a 7-year lease. It is not confirmed whether your land meets the minimum area requirement of 150 square meters and has adequate water supply.",
       "missing_information": [
-        "Do you have at least 150 square meters of vacant land with an adequate water supply?"
+        "Does your land measure at least 150 square meters?",
+        "Does the land have an adequate water supply?"
       ]
+    },
+    "e085": {
+      "kind": "boundary",
+      "true": "eligible",
+      "verdict": "eligible",
+      "reason": "You meet the age criteria of 18 to 40 years (being exactly 40) and work in the unorganized sector to save for retirement after 60.",
+      "missing_information": []
+    },
+    "e086": {
+      "kind": "boundary",
+      "true": "not_eligible",
+      "verdict": "not_eligible",
+      "reason": "The maximum age for joining the Atal Pension Yojana is 40 years, but you are 41 years old.",
+      "missing_information": []
+    },
+    "e087": {
+      "kind": "boundary",
+      "true": "eligible",
+      "verdict": "eligible",
+      "reason": "You meet all key eligibility criteria: you are an unorganised worker (street cobbler), your age of 25 falls within the 18 to 40 years bracket, and your monthly income of ₹15,000 meets the requirement of ₹15,000 or less.",
+      "missing_information": []
+    },
+    "e088": {
+      "kind": "boundary",
+      "true": "not_eligible",
+      "verdict": "not_eligible",
+      "reason": "The scheme specifies that the applicant's gross parental/family income must not exceed ₹4,50,000 per annum, but your family income is ₹4,60,000 per annum.",
+      "missing_information": []
+    },
+    "e089": {
+      "kind": "boundary",
+      "true": "need_more_info",
+      "verdict": "need_more_info",
+      "reason": "You meet the marriage and residence criteria, but the scheme requires applicants to have completed 23 years of age and be under 60 years. Your exact age needs to be confirmed since you mentioned being in your early twenties.",
+      "missing_information": [
+        "What is your exact age?"
+      ]
+    },
+    "e090": {
+      "kind": "boundary",
+      "true": "need_more_info",
+      "verdict": "need_more_info",
+      "reason": "The applicant meets the caste, BPL, and income requirements, but scheme eligibility requires an age between 18 and 55 years. Being in their 'mid-fifties' may exceed the 55-year upper limit.",
+      "missing_information": [
+        "What is your exact age?"
+      ]
+    },
+    "e091": {
+      "kind": "indirect",
+      "true": "not_eligible",
+      "verdict": "not_eligible",
+      "reason": "The scheme allows a maximum agricultural landholding of 10 acres (4 hectares), but you farm 5 hectares of land.",
+      "missing_information": []
+    },
+    "e092": {
+      "kind": "indirect",
+      "true": "not_eligible",
+      "verdict": "not_eligible",
+      "reason": "The scheme requires a monthly income of ₹15,000 or less, but earning ₹800 per day for 26 days amounts to approximately ₹20,800 per month.",
+      "missing_information": []
+    },
+    "e093": {
+      "kind": "indirect",
+      "true": "eligible",
+      "verdict": "eligible",
+      "reason": "You are a resident of Ladakh, a 58-year-old widow (meeting the age requirement of 40 to 79 years), belong to the BPL category, and have no source of income.",
+      "missing_information": []
+    },
+    "e094": {
+      "kind": "indirect",
+      "true": "eligible",
+      "verdict": "eligible",
+      "reason": "You are eligible because you have cultivable landholding registered in your name, which fulfills the primary eligibility requirement for PM-KISAN.",
+      "missing_information": []
+    },
+    "e095": {
+      "kind": "indirect",
+      "true": "eligible",
+      "verdict": "eligible",
+      "reason": "The applicant is a regular student in Class 6 at a recognized school, has scored above 60% (64%) in his recent final exam, and holds his own Philately Deposit Account as his school does not have a Philately Club.",
+      "missing_information": []
+    },
+    "e096": {
+      "kind": "indirect",
+      "true": "need_more_info",
+      "verdict": "not_eligible",
+      "reason": "The scheme requires applicants to have qualified the UGC-NET or Joint CSIR-UGC NET examination. Because you are still awaiting your exam results and have not yet qualified, you do not meet this eligibility requirement.",
+      "missing_information": []
+    },
+    "e097": {
+      "kind": "hinglish",
+      "true": "need_more_info",
+      "verdict": "need_more_info",
+      "reason": "Eligibility for Atal Pension Yojana requires you to be between 18 and 40 years of age and not be an income tax-payee, which are not specified in your description.",
+      "missing_information": [
+        "What is your age?",
+        "Are you an income tax-payee?"
+      ]
+    },
+    "e098": {
+      "kind": "hinglish",
+      "true": "need_more_info",
+      "verdict": "need_more_info",
+      "reason": "You satisfy the residency and marital status requirements, but you need to confirm whether you are between 23 and 60 years of age.",
+      "missing_information": [
+        "What is your age?"
+      ]
+    },
+    "e099": {
+      "kind": "hinglish",
+      "true": "not_eligible",
+      "verdict": "not_eligible",
+      "reason": "The scholarship is exclusively for students pursuing a Ph.D. or D.Litt. course, but you are currently pursuing an MSc.",
+      "missing_information": []
+    },
+    "e100": {
+      "kind": "hinglish",
+      "true": "need_more_info",
+      "verdict": "need_more_info",
+      "reason": "The applicant meets the minority category and age criteria, but information regarding their total annual family income is required to determine eligibility under the scheme's limit of ₹8,00,000/-.",
+      "missing_information": [
+        "What is your total annual family income from all sources?"
+      ]
+    },
+    "e101": {
+      "kind": "hinglish",
+      "true": "eligible",
+      "verdict": "eligible",
+      "reason": "You are eligible as you are a resident of Tamil Nadu, a differently abled person, and a law graduate seeking assistance to enroll as an advocate.",
+      "missing_information": []
+    },
+    "e102": {
+      "kind": "hinglish",
+      "true": "not_eligible",
+      "verdict": "not_eligible",
+      "reason": "The scheme requires cultivable landholding to be in the farmer's family's name, but you do not own land in your name.",
+      "missing_information": []
+    },
+    "e103": {
+      "kind": "multi_condition",
+      "true": "eligible",
+      "verdict": "eligible",
+      "reason": "The applicant is a 45-year-old person with a disability from a BPL family in Punjab. Since they are unemployed and intend to start their own business, the family income limit is waived.",
+      "missing_information": []
+    },
+    "e104": {
+      "kind": "multi_condition",
+      "true": "not_eligible",
+      "verdict": "not_eligible",
+      "reason": "The applicant is pursuing a B.Sc. through distance learning, but the scheme requires students to be enrolled in regular degree courses.",
+      "missing_information": []
+    },
+    "e105": {
+      "kind": "multi_condition",
+      "true": "not_eligible",
+      "verdict": "not_eligible",
+      "reason": "You have partially availed a fellowship earlier during your M.Phil, which disqualifies you under the condition that applicants who completely or partially availed any fellowship previously are not eligible.",
+      "missing_information": []
+    },
+    "e106": {
+      "kind": "multi_condition",
+      "true": "need_more_info",
+      "verdict": "need_more_info",
+      "reason": "You meet the age, distress, and income conditions, but you have not specified whether you belong to the Below Poverty Line (BPL) category.",
+      "missing_information": [
+        "Do you belong to the Below Poverty Line (BPL) category?"
+      ]
+    },
+    "e107": {
+      "kind": "multi_condition",
+      "true": "need_more_info",
+      "verdict": "need_more_info",
+      "reason": "The scheme requires having either self-owned land or a registered lease deed valid for at least 7 years. You mentioned having leased land, but did not specify if you hold a registered lease deed for a minimum of 7 years.",
+      "missing_information": [
+        "Do you have a registered lease deed for the land valid for at least 7 years?"
+      ]
+    },
+    "e108": {
+      "kind": "multi_condition",
+      "true": "eligible",
+      "verdict": "eligible",
+      "reason": "You are a Scheduled Tribe student from Nagaland enrolled in the first year of a PhD program at a recognized Indian university and do not receive any other scholarship.",
+      "missing_information": []
     }
   }
 }

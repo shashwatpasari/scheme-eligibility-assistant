@@ -1,0 +1,544 @@
+{
+  "date": "2026-10-27",
+  "split": "test",
+  "model": "gemma-4-31b-it",
+  "mean_seconds": 4.48,
+  "usage": {
+    "calls": 97,
+    "input_tokens": 46513,
+    "output_tokens": 6669,
+    "invalid_replies_retried": 40,
+    "cost_usd": 0.0,
+    "cost_per_case_usd": 0.0
+  },
+  "metrics": {
+    "accuracy": 0.8181818181818182,
+    "recall": {
+      "eligible": 0.9411764705882353,
+      "not_eligible": 1.0,
+      "need_more_info": 0.8888888888888888
+    },
+    "false_eligible": 2,
+    "no_reply": 9,
+    "confusion_matrix": {
+      "eligible": {
+        "eligible": 16,
+        "not_eligible": 0,
+        "need_more_info": 1
+      },
+      "not_eligible": {
+        "eligible": 0,
+        "not_eligible": 22,
+        "need_more_info": 0
+      },
+      "need_more_info": {
+        "eligible": 2,
+        "not_eligible": 0,
+        "need_more_info": 16
+      }
+    }
+  },
+  "accuracy_by_kind": {
+    "basic": 0.8571428571428571,
+    "boundary": 0.5,
+    "hinglish": 0.8333333333333334,
+    "indirect": 0.8333333333333334,
+    "multi_condition": 0.8333333333333334
+  },
+  "decisions": {
+    "e043": {
+      "kind": "basic",
+      "true": "eligible",
+      "verdict": "eligible",
+      "reason": "The person is 35 years old and has a post office account, meeting both age and account requirements.",
+      "missing_information": []
+    },
+    "e044": {
+      "kind": "basic",
+      "true": "not_eligible",
+      "verdict": "not_eligible",
+      "reason": "The person is 56 years old, which exceeds the maximum age limit of 50 years specified in the scheme.",
+      "missing_information": []
+    },
+    "e045": {
+      "kind": "basic",
+      "true": "need_more_info",
+      "verdict": "need_more_info",
+      "reason": "The applicant's age is not mentioned, which is a key eligibility condition (18 to 50 years).",
+      "missing_information": [
+        "What is your age?"
+      ]
+    },
+    "e046": {
+      "kind": "basic",
+      "true": "eligible",
+      "verdict": "eligible",
+      "reason": "The person is a woman, over 18 years old, and is setting up a first-time (greenfield) manufacturing unit, meeting all eligibility criteria.",
+      "missing_information": []
+    },
+    "e047": {
+      "kind": "basic",
+      "true": "not_eligible",
+      "verdict": "not_eligible",
+      "reason": "The applicant is a male from the general category, but the scheme requires male applicants to be from the SC/ST category.",
+      "missing_information": []
+    },
+    "e048": {
+      "kind": "basic",
+      "true": "need_more_info",
+      "verdict": "need_more_info",
+      "reason": "The person is a man, so he must be from the SC/ST category to be eligible for the loan. His caste category is not mentioned.",
+      "missing_information": [
+        "Are you from the SC or ST category?"
+      ]
+    },
+    "e049": {
+      "kind": "basic",
+      "true": "eligible",
+      "verdict": "eligible",
+      "reason": "The person meets the age limit, has a PhD in a social science discipline (sociology), has publications, and has a supervisor from a public university.",
+      "missing_information": []
+    },
+    "e050": {
+      "kind": "basic",
+      "true": "not_eligible",
+      "verdict": "not_eligible",
+      "reason": "The applicant is 50 years old and belongs to the general category, which exceeds the maximum age limit of 45 years for the scheme.",
+      "missing_information": []
+    },
+    "e051": {
+      "kind": "basic",
+      "true": "need_more_info",
+      "verdict": "need_more_info",
+      "reason": "The applicant has a PhD in a social science discipline, but their age, research competence (publications), institutional affiliation, and supervisor details are not provided.",
+      "missing_information": [
+        "What is your age?",
+        "Do you have publications demonstrating your research competence?",
+        "Are you affiliated with a public-funded Indian institution approved for PhD?",
+        "Do you have a supervisor who is a serving faculty (Associate Professor or above)?"
+      ]
+    },
+    "e052": {
+      "kind": "basic",
+      "true": "eligible",
+      "verdict": "eligible",
+      "reason": "The person is a widow, falls within the age group of 40-79 years, and belongs to a household living below the poverty line (BPL).",
+      "missing_information": []
+    },
+    "e053": {
+      "kind": "basic",
+      "true": "not_eligible",
+      "verdict": "not_eligible",
+      "reason": "The applicant is 35 years old, which is below the required age group of 40-79 years.",
+      "missing_information": []
+    },
+    "e054": {
+      "kind": "basic",
+      "true": "need_more_info",
+      "verdict": "need_more_info",
+      "reason": "The person is a widow and within the age range of 40-79, but their BPL (Below Poverty Line) status is not mentioned.",
+      "missing_information": [
+        "Are you from a household living below the poverty line (BPL)?"
+      ]
+    },
+    "e055": {
+      "kind": "basic",
+      "true": "eligible",
+      "verdict": "eligible",
+      "reason": "The person is a native of Rajasthan, belongs to the OBC category, has an annual family income of ₹3 lakh (below the ₹8 lakh limit), and is a graduate, meeting the qualification requirement for RAS.",
+      "missing_information": []
+    },
+    "e056": {
+      "kind": "basic",
+      "true": "not_eligible",
+      "verdict": "not_eligible",
+      "reason": "The candidate's parents earn ₹12 lakh per year, which exceeds the annual income limit of ₹8.00 lakh required for the scheme.",
+      "missing_information": []
+    },
+    "e057": {
+      "kind": "basic",
+      "true": "need_more_info",
+      "verdict": "need_more_info",
+      "reason": "The candidate's category and family income are not mentioned in the description.",
+      "missing_information": [
+        "Which category (SC, ST, OBC, EBC, EWS, or Minority) do you belong to?",
+        "What is the annual income of your parents/guardians?"
+      ]
+    },
+    "e058": {
+      "kind": "basic",
+      "true": "eligible",
+      "verdict": "no_reply"
+    },
+    "e059": {
+      "kind": "basic",
+      "true": "not_eligible",
+      "verdict": "not_eligible",
+      "reason": "The applicant is 52 years old, whereas the scheme requires the worker to have reached 60 years of age to be eligible for the pension.",
+      "missing_information": []
+    },
+    "e060": {
+      "kind": "basic",
+      "true": "need_more_info",
+      "verdict": "need_more_info",
+      "reason": "The person meets the age requirement, but it is not specified if they are registered with the BOCW Welfare Board of Karnataka and if they have been a beneficiary for at least 3 consecutive years before turning 60.",
+      "missing_information": [
+        "Are you registered as a construction worker with the Building and Other Construction Workers Welfare Board of Karnataka?",
+        "Have you been a beneficiary of the Board for at least 3 consecutive years before you turned 60?"
+      ]
+    },
+    "e061": {
+      "kind": "basic",
+      "true": "eligible",
+      "verdict": "eligible",
+      "reason": "The person meets all eligibility criteria: they have a locomotor disability, are 30 years old, have a minimum qualification of class 12 (matriculate), have been registered at the special employment exchange for 3 years, and their family income is ₹1 lakh per year.",
+      "missing_information": []
+    },
+    "e062": {
+      "kind": "basic",
+      "true": "not_eligible",
+      "verdict": "not_eligible",
+      "reason": "The applicant is 52 years old, which exceeds the eligibility age group of 18-48 years.",
+      "missing_information": []
+    },
+    "e063": {
+      "kind": "basic",
+      "true": "need_more_info",
+      "verdict": "no_reply"
+    },
+    "e064": {
+      "kind": "basic",
+      "true": "eligible",
+      "verdict": "eligible",
+      "reason": "The applicant is from an OBC Hindu family in a rural area with an income below Rs. 46,080, and both the bride and groom meet the minimum age requirements.",
+      "missing_information": []
+    },
+    "e065": {
+      "kind": "basic",
+      "true": "not_eligible",
+      "verdict": "not_eligible",
+      "reason": "The daughter's age is 16, which is below the required minimum age of 18 years for the girl.",
+      "missing_information": []
+    },
+    "e066": {
+      "kind": "basic",
+      "true": "need_more_info",
+      "verdict": "need_more_info",
+      "reason": "The applicant's family belongs to the Other Backward Classes (OBC) and lives in Uttar Pradesh, but information regarding their annual income, the ages of the bride and groom, and the number of daughters already receiving the grant is missing.",
+      "missing_information": [
+        "What is your annual family income?",
+        "Whether you live in an urban or rural area?",
+        "What is the age of your daughter and the groom?",
+        "How many daughters from your family have already received this marriage grant?"
+      ]
+    },
+    "e067": {
+      "kind": "basic",
+      "true": "eligible",
+      "verdict": "no_reply"
+    },
+    "e068": {
+      "kind": "basic",
+      "true": "not_eligible",
+      "verdict": "not_eligible",
+      "reason": "The person's annual family income is ₹6 lakh, which exceeds the eligibility limit of Rs 3 lacs.",
+      "missing_information": []
+    },
+    "e069": {
+      "kind": "basic",
+      "true": "need_more_info",
+      "verdict": "need_more_info",
+      "reason": "The person has not provided information about their annual family income.",
+      "missing_information": [
+        "What is your annual family income?"
+      ]
+    },
+    "e070": {
+      "kind": "basic",
+      "true": "eligible",
+      "verdict": "eligible",
+      "reason": "The person's son is a student with 50% disability, completed a B.A. in History (Arts subject) from a government college in Kerala with 75% marks (above the 60% requirement) on the first attempt.",
+      "missing_information": []
+    },
+    "e071": {
+      "kind": "basic",
+      "true": "not_eligible",
+      "verdict": "not_eligible",
+      "reason": "The applicant has a 30% disability, but the scheme requires a minimum of 40% disability.",
+      "missing_information": []
+    },
+    "e072": {
+      "kind": "basic",
+      "true": "need_more_info",
+      "verdict": "need_more_info",
+      "reason": "The person's son has a disability of 60% and studied at an aided college in Kerala, but his marks and whether he passed in the first attempt are not mentioned.",
+      "missing_information": [
+        "What were the marks obtained in the B.Sc. Physics course?",
+        "Did he pass the examination in the first attempt?"
+      ]
+    },
+    "e073": {
+      "kind": "basic",
+      "true": "eligible",
+      "verdict": "no_reply"
+    },
+    "e074": {
+      "kind": "basic",
+      "true": "not_eligible",
+      "verdict": "not_eligible",
+      "reason": "The applicant earns ₹8,000 per month, which exceeds the maximum monthly income limit of ₹1,500.",
+      "missing_information": []
+    },
+    "e075": {
+      "kind": "basic",
+      "true": "need_more_info",
+      "verdict": "need_more_info",
+      "reason": "The person has mentioned their disability (deaf), but their disability percentage and monthly income are not provided.",
+      "missing_information": [
+        "What is your disability percentage as certified by a competent authority?",
+        "What is your monthly income?"
+      ]
+    },
+    "e076": {
+      "kind": "basic",
+      "true": "eligible",
+      "verdict": "need_more_info",
+      "reason": "The applicant is a student with a recognized institution and an eligible family income, but it is not mentioned if they are the only family member seeking this benefit.",
+      "missing_information": [
+        "Are you the only member of your family seeking this benefit, or is your family Below Poverty Line (BPL)?"
+      ]
+    },
+    "e077": {
+      "kind": "basic",
+      "true": "not_eligible",
+      "verdict": "not_eligible",
+      "reason": "The applicant's family annual income of ₹4 lakh exceeds the limit of ₹2,50,000 for studies within India.",
+      "missing_information": []
+    },
+    "e078": {
+      "kind": "basic",
+      "true": "need_more_info",
+      "verdict": "need_more_info",
+      "reason": "The person is a student seeking an education loan, but their family income, the recognition of the institution, and BPL status are not provided.",
+      "missing_information": [
+        "What is your family's annual income?",
+        "Is the institution where you want to study recognized by the relevant authority in India?",
+        "Is your family Below Poverty Line (BPL)?",
+        "Are any other family members already receiving this benefit?"
+      ]
+    },
+    "e079": {
+      "kind": "basic",
+      "true": "eligible",
+      "verdict": "no_reply"
+    },
+    "e080": {
+      "kind": "basic",
+      "true": "not_eligible",
+      "verdict": "not_eligible",
+      "reason": "The person possesses only 0.1 hectare of land, while the scheme requires at least 0.2 hectares.",
+      "missing_information": []
+    },
+    "e081": {
+      "kind": "basic",
+      "true": "need_more_info",
+      "verdict": "need_more_info",
+      "reason": "The person has not specified if they are a bonafide farmer engaged in agriculture or if they possess land of at least 0.2 hectares.",
+      "missing_information": [
+        "Are you a bonafide farmer engaged in agriculture?",
+        "Do you possess own or leased land of at least 0.2 hectares or more?"
+      ]
+    },
+    "e082": {
+      "kind": "basic",
+      "true": "eligible",
+      "verdict": "eligible",
+      "reason": "The person is a shrimp farmer from Haryana, aged 40, and possesses a Parivar Pehchan Patra, meeting all the specified eligibility conditions.",
+      "missing_information": []
+    },
+    "e083": {
+      "kind": "basic",
+      "true": "not_eligible",
+      "verdict": "not_eligible",
+      "reason": "The applicant is 16 years old, which is below the minimum required age of 18 years.",
+      "missing_information": []
+    },
+    "e084": {
+      "kind": "basic",
+      "true": "need_more_info",
+      "verdict": "need_more_info",
+      "reason": "The person is a resident of Haryana and over 18, but it is not specified if they are involved in shrimp farming specifically.",
+      "missing_information": [
+        "Are you involved in shrimp farming?"
+      ]
+    },
+    "e109": {
+      "kind": "boundary",
+      "true": "eligible",
+      "verdict": "eligible",
+      "reason": "The person is 50 years old and has a bank account, which meets both eligibility criteria of the scheme.",
+      "missing_information": []
+    },
+    "e110": {
+      "kind": "boundary",
+      "true": "not_eligible",
+      "verdict": "not_eligible",
+      "reason": "The applicant is 39 years old, but the scheme requires the applicant to be in the age group of 40-79 years.",
+      "missing_information": []
+    },
+    "e111": {
+      "kind": "boundary",
+      "true": "need_more_info",
+      "verdict": "eligible",
+      "reason": "The person's family income is within the limit of Rs 3 lacs, they have been a resident of Delhi for more than 3 years, and the treatment is required at a Delhi government hospital.",
+      "missing_information": []
+    },
+    "e112": {
+      "kind": "boundary",
+      "true": "not_eligible",
+      "verdict": "not_eligible",
+      "reason": "The applicant's family annual income of ¢5.2 lakh exceeds the limit of ¢5,00,000 for studies abroad.",
+      "missing_information": []
+    },
+    "e113": {
+      "kind": "boundary",
+      "true": "need_more_info",
+      "verdict": "no_reply"
+    },
+    "e114": {
+      "kind": "boundary",
+      "true": "need_more_info",
+      "verdict": "no_reply"
+    },
+    "e115": {
+      "kind": "indirect",
+      "true": "eligible",
+      "verdict": "eligible",
+      "reason": "The person is a resident of Lakshadweep, has an orthopedic disability of 80% (above the 40% threshold), and has no source of income or existing pension.",
+      "missing_information": []
+    },
+    "e116": {
+      "kind": "indirect",
+      "true": "not_eligible",
+      "verdict": "not_eligible",
+      "reason": "The person possesses a third of an acre of land, which is approximately 0.13 hectares, while the scheme requires a minimum of 0.2 hectares.",
+      "missing_information": []
+    },
+    "e117": {
+      "kind": "indirect",
+      "true": "eligible",
+      "verdict": "no_reply"
+    },
+    "e118": {
+      "kind": "indirect",
+      "true": "eligible",
+      "verdict": "eligible",
+      "reason": "The person is a registered construction worker, is 62 years old (retired at 60 two years ago), and has been a beneficiary for 12 years (since age 50), meeting all age and registration requirements.",
+      "missing_information": []
+    },
+    "e119": {
+      "kind": "indirect",
+      "true": "not_eligible",
+      "verdict": "not_eligible",
+      "reason": "The scheme provides finance only for Greenfield Enterprises, but the person wants a loan to expand an existing shop.",
+      "missing_information": []
+    },
+    "e120": {
+      "kind": "indirect",
+      "true": "eligible",
+      "verdict": "eligible",
+      "reason": "The person is a widow, is within the 40-79 age group (70 years old), and belongs to a BPL household as evidenced by the Antyodaya (AAY) ration card.",
+      "missing_information": []
+    },
+    "e121": {
+      "kind": "hinglish",
+      "true": "need_more_info",
+      "verdict": "need_more_info",
+      "reason": "The person has a post office account, but their age is not mentioned.",
+      "missing_information": [
+        "What is your age?"
+      ]
+    },
+    "e122": {
+      "kind": "hinglish",
+      "true": "eligible",
+      "verdict": "eligible",
+      "reason": "The person is a native of Rajasthan, belongs to the ST category, and has an annual family income of ₹2 lakh, which is below the ₹8 lakh limit. They have graduated, meeting the minimum qualification for the RAS exam.",
+      "missing_information": []
+    },
+    "e123": {
+      "kind": "hinglish",
+      "true": "not_eligible",
+      "verdict": "not_eligible",
+      "reason": "The girl's age is 17 years, which is below the required minimum age of 18 years.",
+      "missing_information": []
+    },
+    "e124": {
+      "kind": "hinglish",
+      "true": "need_more_info",
+      "verdict": "no_reply"
+    },
+    "e125": {
+      "kind": "hinglish",
+      "true": "eligible",
+      "verdict": "eligible",
+      "reason": "The person is a resident of Haryana, a shrimp farmer, 30 years old (at least 18), and possesses a PPP ID, meeting all specified eligibility conditions.",
+      "missing_information": []
+    },
+    "e126": {
+      "kind": "hinglish",
+      "true": "need_more_info",
+      "verdict": "need_more_info",
+      "reason": "The applicant wants to study abroad, but their family annual income and student status are not provided.",
+      "missing_information": [
+        "Are you a student?",
+        "What is your family's annual income?",
+        "Is the institution you want to study at recognized by the relevant authority in India?"
+      ]
+    },
+    "e127": {
+      "kind": "multi_condition",
+      "true": "eligible",
+      "verdict": "eligible",
+      "reason": "The applicant is 47 years old and belongs to a Scheduled Caste, falling within the age limit after the 5-year relaxation (45+5=50). They have a PhD in economics (a social science), publications, and a supervisor who is an Associate Professor at a public university.",
+      "missing_information": []
+    },
+    "e128": {
+      "kind": "multi_condition",
+      "true": "not_eligible",
+      "verdict": "not_eligible",
+      "reason": "The candidate has previously availed the benefits of this scheme, which is explicitly prohibited.",
+      "missing_information": []
+    },
+    "e129": {
+      "kind": "multi_condition",
+      "true": "not_eligible",
+      "verdict": "not_eligible",
+      "reason": "The scheme specifically excludes persons with Intellectual Disabilities, and the applicant stated they have an intellectual disability.",
+      "missing_information": []
+    },
+    "e130": {
+      "kind": "multi_condition",
+      "true": "not_eligible",
+      "verdict": "not_eligible",
+      "reason": "The scheme requires treatment to be undergone in a Government Hospital, but the patient needs treatment at a private hospital.",
+      "missing_information": []
+    },
+    "e131": {
+      "kind": "multi_condition",
+      "true": "need_more_info",
+      "verdict": "eligible",
+      "reason": "The daughter is a student with 70% disability who completed a Science degree (B.Sc. Chemistry) in a government college in Kerala with 82% marks, meeting all the requirements.",
+      "missing_information": []
+    },
+    "e132": {
+      "kind": "multi_condition",
+      "true": "need_more_info",
+      "verdict": "need_more_info",
+      "reason": "The person is a registered worker over 60, but it is not mentioned if they have been a beneficiary of the Board for at least 3 consecutive years before turning 60.",
+      "missing_information": [
+        "Have you been a beneficiary of the Board for at least 3 consecutive years before turning 60?"
+      ]
+    }
+  }
+}

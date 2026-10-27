@@ -11,7 +11,7 @@ mention a state, so the main check is that the LLM never returns a wrong one.
 
 Results are written to data/eval/results/rewrite_<split>_<model>.json.
 
-Usage (requires a built index and GEMINI_API_KEY):
+Usage (requires a built index and an API key in .env):
     uv run python -m scheme_assistant.evaluate_rewrite --split dev
     uv run python -m scheme_assistant.evaluate_rewrite --split test --model gemini-3.8-flash
 """
@@ -35,7 +35,7 @@ from scheme_assistant.evaluate import (
     rank_queries,
 )
 from scheme_assistant.hf_dataset import PROJECT_ROOT
-from scheme_assistant.llm import DEFAULT_GEMINI_MODEL, GeminiClient, LLMClient
+from scheme_assistant.llm import DEFAULT_MODEL, LLMClient, make_llm
 from scheme_assistant.models import RetrievalQuery
 from scheme_assistant.rewrite import QueryRewrite, rewrite_query
 from scheme_assistant.search import QDRANT_PATH, BgeM3Embedder
@@ -105,11 +105,13 @@ def print_summary(
 def main() -> int:
     parser = argparse.ArgumentParser(description="Evaluate LLM query rewriting.")
     parser.add_argument("--split", choices=SPLITS, default="dev", help="query set to evaluate")
-    parser.add_argument("--model", default=DEFAULT_GEMINI_MODEL, help="Gemini model name")
+    parser.add_argument(
+        "--model", default=DEFAULT_MODEL, help="model name (Gemini, Gemma or Claude)"
+    )
     args = parser.parse_args()
 
     queries = load_queries(args.split)
-    rewrites, durations = rewrite_all(GeminiClient(args.model), queries)
+    rewrites, durations = rewrite_all(make_llm(args.model), queries)
 
     embedder = BgeM3Embedder()
     results = {}

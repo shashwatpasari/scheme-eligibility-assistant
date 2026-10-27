@@ -7,7 +7,7 @@ Steps:
     3. Check the user against each scheme found.
     4. Return the results with eligible schemes first.
 
-Usage (requires a built index and GEMINI_API_KEY):
+Usage (requires a built index and an API key in .env):
     uv run python -m scheme_assistant.assistant "I am a 55-year-old widow in Leh with no income"
     uv run python -m scheme_assistant.assistant "I farm 2 acres" --state Bihar
 """
@@ -20,7 +20,7 @@ from dataclasses import dataclass
 from qdrant_client import QdrantClient
 
 from scheme_assistant.eligibility import EligibilityDecision, check_eligibility
-from scheme_assistant.llm import DEFAULT_GEMINI_MODEL, GeminiClient, LLMClient
+from scheme_assistant.llm import DEFAULT_MODEL, LLMClient, LLMError, make_llm
 from scheme_assistant.rewrite import rewrite_query
 from scheme_assistant.search import QDRANT_PATH, BgeM3Embedder, load_scheme, search
 
@@ -35,6 +35,7 @@ class SchemeResult:
 
     scheme_id: str
     name: str
+    search_rank: int  # 1 = best search match
     decision: EligibilityDecision
 
 
@@ -72,15 +73,19 @@ def answer_question(
 
     hits = search(client, embedder, question, user_state=user_state, limit=limit)
 
-    def check(scheme_id: str) -> EligibilityDecision:
-        return check_eligibility(llm, load_scheme(scheme_id), question, user_state)
+    def check(scheme_id: str) -> EligibilityDecision | None:
+        try:
+            return check_eligibility(llm, load_scheme(scheme_id), question, user_state)
+        except LLMError:
+            return None  # the model gave no valid reply; leave this scheme out
 
     with ThreadPoolExecutor(max_workers=PARALLEL_CHECKS) as pool:
         decisions = list(pool.map(check, [hit.scheme_id for hit in hits]))
 
     results = [
-        SchemeResult(scheme_id=hit.scheme_id, name=hit.name, decision=decision)
-        for hit, decision in zip(hits, decisions)
+        SchemeResult(hit.scheme_id, hit.name, search_rank=rank, decision=decision)
+        for rank, (hit, decision) in enumerate(zip(hits, decisions), start=1)
+        if decision is not None
     ]
     # sort() is stable, so schemes with the same verdict keep their search order.
     results.sort(key=lambda result: VERDICT_ORDER[result.decision.verdict])
@@ -111,11 +116,13 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="Find schemes a user may qualify for.")
     parser.add_argument("question", help="the user's question")
     parser.add_argument("--state", help="the state the user lives in")
-    parser.add_argument("--model", default=DEFAULT_GEMINI_MODEL, help="Gemini model name")
+    parser.add_argument(
+        "--model", default=DEFAULT_MODEL, help="model name (Gemini, Gemma or Claude)"
+    )
     parser.add_argument("--limit", type=int, default=SCHEMES_TO_CHECK, help="schemes to check")
     args = parser.parse_args()
 
-    llm = GeminiClient(args.model)
+    llm = make_llm(args.model)
     with closing(QdrantClient(path=str(QDRANT_PATH))) as client:
         answer = answer_question(
             llm, client, BgeM3Embedder(), args.question, args.state, args.limit

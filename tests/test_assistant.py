@@ -6,6 +6,7 @@ from qdrant_client import QdrantClient
 from scheme_assistant import assistant
 from scheme_assistant.assistant import answer_question
 from scheme_assistant.eligibility import EligibilityDecision
+from scheme_assistant.llm import LLMError
 from scheme_assistant.rewrite import QueryRewrite
 from scheme_assistant.search import build_index
 from tests.fake_embedder import FakeEmbedder
@@ -28,6 +29,8 @@ class VerdictByScheme:
             self.rewrite_calls += 1
             return QueryRewrite(search_query=user_prompt, state="Ladakh", facts=[])
         scheme_name = user_prompt.split("\n")[0].removeprefix("Scheme: ")
+        if self.verdicts.get(scheme_name) == "no_reply":
+            raise LLMError("no valid reply")
         return EligibilityDecision(
             verdict=self.verdicts.get(scheme_name, "need_more_info"),
             reason="test",
@@ -75,3 +78,12 @@ def test_results_are_sorted_by_verdict(client):
     answer = answer_question(llm, client, FakeEmbedder(), "widow farmer vendor", "Ladakh")
     verdicts = [result.decision.verdict for result in answer.results]
     assert verdicts == ["eligible", "need_more_info", "not_eligible"]
+    # Search ranks are kept, so the original search order is still known.
+    assert sorted(result.search_rank for result in answer.results) == [1, 2, 3]
+
+
+def test_scheme_without_valid_reply_is_left_out(client):
+    llm = VerdictByScheme({"FARMER-CASH": "no_reply"})
+    answer = answer_question(llm, client, FakeEmbedder(), "widow farmer vendor", "Ladakh")
+    assert "farmer-cash" not in [result.scheme_id for result in answer.results]
+    assert len(answer.results) == 2

@@ -2,6 +2,8 @@
 
 from pydantic import BaseModel
 
+from scheme_assistant.llm import TokenUsage
+
 
 class FakeLLM:
     """Returns fixed replies and records the prompts it was given.
@@ -14,6 +16,7 @@ class FakeLLM:
 
     def __init__(self, *replies: BaseModel) -> None:
         self.replies = {type(reply): reply for reply in replies}
+        self.usage = TokenUsage()
         self.prompts: list[tuple[str, str]] = []  # (system prompt, user prompt)
 
     def generate(self, system_prompt, user_prompt, response_model):
