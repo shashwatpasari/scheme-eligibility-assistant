@@ -4,12 +4,13 @@ Steps:
     1. If the user's state is not given, read it from the question with the LLM.
     2. Search for matching schemes using the original question. (Rewriting the
        question before searching did not improve results; see data/eval/README.md.)
-    3. Check the user against each scheme found.
-    4. Return the results with eligible schemes first.
+    3. Re-rank the search results with a cross-encoder (can be turned off).
+    4. Check the user against each scheme found.
+    5. Return the results with eligible schemes first.
 
 Usage (requires a built index and an API key in .env):
     uv run python -m scheme_assistant.assistant "I am a 55-year-old widow in Leh with no income"
-    uv run python -m scheme_assistant.assistant "I farm 2 acres" --state Bihar
+    uv run python -m scheme_assistant.assistant "I farm 2 acres" --state Bihar --no-rerank
 """
 
 import argparse
@@ -21,10 +22,11 @@ from qdrant_client import QdrantClient
 
 from scheme_assistant.eligibility import EligibilityDecision, check_eligibility
 from scheme_assistant.llm import DEFAULT_MODEL, LLMClient, LLMError, make_llm
+from scheme_assistant.rerank import RERANK_CANDIDATES, BgeReranker, Reranker, rerank
 from scheme_assistant.rewrite import rewrite_query
 from scheme_assistant.search import QDRANT_PATH, BgeM3Embedder, load_scheme, search
 
-SCHEMES_TO_CHECK = 10  # the right scheme is in the top 10 for 93% of test queries
+SCHEMES_TO_CHECK = 10  # with re-ranking, the right scheme is in the top 10 for 95% of test queries
 PARALLEL_CHECKS = 5  # eligibility checks are independent, so run several at once
 VERDICT_ORDER = {"eligible": 0, "need_more_info": 1, "not_eligible": 2}
 
@@ -35,7 +37,7 @@ class SchemeResult:
 
     scheme_id: str
     name: str
-    search_rank: int  # 1 = best search match
+    search_rank: int  # 1 = best match (after re-ranking, if used)
     decision: EligibilityDecision
 
 
@@ -54,6 +56,7 @@ def answer_question(
     question: str,
     user_state: str | None = None,
     limit: int = SCHEMES_TO_CHECK,
+    reranker: Reranker | None = None,
 ) -> Answer:
     """Find schemes for a user and check their eligibility for each.
 
@@ -64,6 +67,8 @@ def answer_question(
         question: The user's question in their own words.
         user_state: The state the user lives in; read from the question if None.
         limit: Number of schemes to retrieve and check.
+        reranker: If given, the top RERANK_CANDIDATES search results are re-ranked
+            and the best `limit` are checked.
 
     Returns:
         The state used and the checked schemes, eligible first.
@@ -71,7 +76,12 @@ def answer_question(
     if user_state is None:
         user_state = rewrite_query(llm, question).state
 
-    hits = search(client, embedder, question, user_state=user_state, limit=limit)
+    if reranker is None:
+        hits = search(client, embedder, question, user_state=user_state, limit=limit)
+    else:
+        candidates = max(limit, RERANK_CANDIDATES)
+        hits = search(client, embedder, question, user_state=user_state, limit=candidates)
+        hits = rerank(reranker, question, hits, limit)
 
     def check(scheme_id: str) -> EligibilityDecision | None:
         try:
@@ -120,12 +130,14 @@ def main() -> int:
         "--model", default=DEFAULT_MODEL, help="model name (Gemini, Gemma or Claude)"
     )
     parser.add_argument("--limit", type=int, default=SCHEMES_TO_CHECK, help="schemes to check")
+    parser.add_argument("--no-rerank", action="store_true", help="skip re-ranking")
     args = parser.parse_args()
 
     llm = make_llm(args.model)
+    reranker = None if args.no_rerank else BgeReranker()
     with closing(QdrantClient(path=str(QDRANT_PATH))) as client:
         answer = answer_question(
-            llm, client, BgeM3Embedder(), args.question, args.state, args.limit
+            llm, client, BgeM3Embedder(), args.question, args.state, args.limit, reranker
         )
     print_answer(answer)
     return 0

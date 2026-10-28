@@ -10,11 +10,12 @@ looked up in the answer. A case succeeds when the user would get the right answe
 Also reported: how often the scheme is found at all, verdict accuracy when found, and
 "false eligible" (the scheme shown as eligible when it should not be).
 
-Results are written to data/eval/results/pipeline_<split>_<model>.json.
+Results are written to data/eval/results/pipeline_<split>_<model>[_rerank].json.
 
 Usage (requires a built index and an API key in .env):
     uv run python -m scheme_assistant.evaluate_pipeline --split dev
     uv run python -m scheme_assistant.evaluate_pipeline --split test --model gemini-3.8-flash
+    uv run python -m scheme_assistant.evaluate_pipeline --split dev --no-rerank
 """
 
 import argparse
@@ -32,6 +33,7 @@ from scheme_assistant.evaluate_eligibility import load_cases, print_cost, usage_
 from scheme_assistant.hf_dataset import PROJECT_ROOT
 from scheme_assistant.llm import DEFAULT_MODEL, make_llm
 from scheme_assistant.models import EligibilityCase
+from scheme_assistant.rerank import RERANK_CANDIDATES, RERANKER_MODEL, BgeReranker
 from scheme_assistant.search import QDRANT_PATH, BgeM3Embedder
 
 
@@ -106,9 +108,15 @@ def summarise(outcomes: list[CaseOutcome]) -> dict:
     }
 
 
-def print_summary(split: str, model: str, summary: dict, outcomes: list[CaseOutcome]) -> None:
+def print_summary(
+    split: str, model: str, reranked: bool, summary: dict, outcomes: list[CaseOutcome]
+) -> None:
     """Print the headline metrics and the failed cases."""
-    print(f"{split} set, model {model}, {len(outcomes)} cases, top {SCHEMES_TO_CHECK} checked\n")
+    search_setup = f"re-rank top {RERANK_CANDIDATES}" if reranked else "no re-rank"
+    print(
+        f"{split} set, model {model}, {search_setup}, {len(outcomes)} cases, "
+        f"top {SCHEMES_TO_CHECK} checked\n"
+    )
     print(f"Success (user gets the right answer): {summary['success']:.2f}")
     print(f"Scheme found in results:              {summary['found']:.2f}")
     print(f"Verdict correct when found:           {summary['verdict_accuracy_when_found']:.2f}")
@@ -135,21 +143,31 @@ def main() -> int:
     parser.add_argument(
         "--model", default=DEFAULT_MODEL, help="model name (Gemini, Gemma or Claude)"
     )
+    parser.add_argument("--no-rerank", action="store_true", help="skip re-ranking")
     args = parser.parse_args()
 
     cases = load_cases(args.split)
     llm = make_llm(args.model)
     embedder = BgeM3Embedder()
+    reranked = not args.no_rerank
+    reranker = BgeReranker() if reranked else None
 
     outcomes = []
     with closing(QdrantClient(path=str(QDRANT_PATH))) as client:
         for case in cases:
             start = time.perf_counter()
-            answer = answer_question(llm, client, embedder, case.user_description, case.user_state)
+            answer = answer_question(
+                llm,
+                client,
+                embedder,
+                case.user_description,
+                case.user_state,
+                reranker=reranker,
+            )
             outcomes.append(score_case(case, answer, time.perf_counter() - start))
 
     summary = summarise(outcomes)
-    print_summary(args.split, args.model, summary, outcomes)
+    print_summary(args.split, args.model, reranked, summary, outcomes)
     print_cost(args.model, llm.usage, len(cases))
 
     report = {
@@ -157,11 +175,15 @@ def main() -> int:
         "split": args.split,
         "model": args.model,
         "schemes_checked": SCHEMES_TO_CHECK,
+        "reranker": (
+            {"model": RERANKER_MODEL, "candidates": RERANK_CANDIDATES} if reranked else None
+        ),
         "usage": usage_report(args.model, llm.usage, len(cases)),
         "summary": summary,
         "cases": [asdict(outcome) for outcome in outcomes],
     }
-    results_path = EVAL_DIR / "results" / f"pipeline_{args.split}_{args.model}.json"
+    suffix = "_rerank" if reranked else ""
+    results_path = EVAL_DIR / "results" / f"pipeline_{args.split}_{args.model}{suffix}.json"
     results_path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
     print(f"\nWrote {results_path.relative_to(PROJECT_ROOT)}")
     return 0

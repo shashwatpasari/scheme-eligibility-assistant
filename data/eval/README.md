@@ -107,7 +107,9 @@ added on the same schemes, 6 of each kind and 8 of each verdict:
 
 ## Results
 
-Search setup: hybrid 70/30 + state filter, top 10. Full numbers are in `results/`.
+Search setup unless stated: hybrid 70/30 + state filter, top 10, no re-ranking (re-ranking
+was added last and is now on by default; see the Re-ranking section). Full numbers are in
+`results/`.
 
 ### Search (`retrieval_<split>.json`)
 
@@ -206,3 +208,59 @@ scheme that search did not retrieve; when the scheme is found, the verdict is ri
 the time. Search fails mostly on short, vague descriptions ("I work as a security guard
 and want a monthly pension when I am old") and on dev's Hinglish cases. Flash is about
 5 times slower than Flash-Lite because each question needs 10 eligibility checks.
+
+### Re-ranking (`retrieval_<split>.json`, `pipeline_<split>_<model>_rerank.json`)
+
+A cross-encoder, `BAAI/bge-reranker-v2-m3`, re-orders the top N search results
+(`src/scheme_assistant/rerank.py`). It runs locally in half precision on an Apple M4.
+N was chosen on dev: 20 had the best MRR.
+
+Search only (`uv run python -m scheme_assistant.evaluate --split test`), time per query
+excludes embedding the question:
+
+| Set | Setup | Hit@1 | Hit@5 | Hit@10 | MRR | Time |
+|---|---|---|---|---|---|---|
+| dev | no re-rank | 0.65 | 0.90 | 0.95 | 0.75 | 0.2 s |
+| dev | re-rank top 10 | 0.70 | 0.95 | 0.95 | 0.81 | 2.9 s |
+| dev | re-rank top 20 | **0.72** | **0.97** | 0.97 | **0.82** | 3.7 s |
+| dev | re-rank top 50 | 0.70 | 0.97 | **1.00** | 0.81 | 7.7 s |
+| test | no re-rank | 0.75 | 0.88 | 0.93 | 0.80 | 0.2 s |
+| test | re-rank top 10 | 0.80 | 0.90 | 0.93 | 0.84 | 3.0 s |
+| test | re-rank top 20 | **0.82** | 0.93 | 0.95 | **0.86** | 4.1 s |
+| test | re-rank top 50 | **0.82** | **0.95** | **0.97** | **0.86** | 7.3 s |
+
+End to end with re-ranking of the top 20 (on by default; `--no-rerank` turns it off):
+
+| Set | Model | Re-rank | Success | Scheme found | Verdict correct when found | False eligible | Time |
+|---|---|---|---|---|---|---|---|
+| dev | gemini-3.8-flash | no | 0.85 | 0.85 | 0.98 | 0 | 13.8 s |
+| dev | gemini-3.8-flash | yes | **0.89** | **0.88** | 0.98 | 0 | 22.9 s |
+| dev | claude-haiku-5-5 | no | 0.82 | 0.85 | 0.95 | 0 | 8.0 s |
+| dev | claude-haiku-5-5 | yes | **0.86** | **0.88** | 0.95 | 0 | 12.1 s |
+| test | gemini-3.8-flash | no | **0.94** | **0.94** | 0.98 | 1 | 15.2 s |
+| test | gemini-3.8-flash | yes | **0.94** | 0.92 | 0.98 | 1 | 19.5 s |
+| test | claude-haiku-5-5 | no | **0.94** | **0.94** | 0.98 | 0 | 8.0 s |
+| test | claude-haiku-5-5 | yes | 0.89 | 0.92 | 0.93 | 0 | 11.8 s |
+
+**Findings:**
+
+- **Re-ranking puts the right scheme first more often** (test Hit@1 0.75 → 0.82, MRR
+  0.80 → 0.86) and finds a few more in the top 10.
+- **End to end, the gain is mixed, and the same for both models.** On dev, 3 more schemes
+  were found (e003, e018, e097) and none lost: success +4 points for both Flash and Haiku.
+  On test, 2 were gained (e046, e076) and 2 lost (e048, e078): Flash stays at 0.94. The lost ones are vague
+  questions ("a loan to start a new business", "an education loan to study medicine")
+  where many schemes fit; the re-ranker placed other, equally plausible loan schemes
+  above the labelled one. Putting the eligibility text before the details did not change
+  this.
+- Haiku's larger test drop is verdict noise: it saw the same schemes and changed e049 and
+  e061 between `eligible` and `need_more_info`.
+- **Order matters less end to end**, because all of the top 10 are checked anyway; only
+  Hit@10 counts, and it moves by one or two queries.
+- **Cost:** about 4 s more per question on a laptop.
+
+**Decision:** re-ranking is on by default. It clearly improves search order, gains 4
+points end to end on dev for both models and ties on test with the default model (Flash),
+for about 4 s more per question. It also makes checking fewer schemes possible: with
+re-ranking, the top 5 holds the right scheme as often as the top 10 does without it (test
+Hit@5 0.93 vs Hit@10 0.93), which would halve the eligibility checks per question.

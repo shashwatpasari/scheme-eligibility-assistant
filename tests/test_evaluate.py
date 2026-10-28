@@ -4,6 +4,7 @@ import pytest
 
 from scheme_assistant.evaluate import (
     HYBRID_DENSE_WEIGHTS,
+    RERANK_CANDIDATE_COUNTS,
     Setup,
     build_setups,
     compute_metrics,
@@ -41,6 +42,20 @@ def test_setup_name_shows_hybrid_weights():
     assert Setup("hybrid", True, dense_weight=0.8).name() == "hybrid 80/20 + state filter"
 
 
+def test_setup_name_shows_rerank_candidates():
+    setup = Setup("hybrid", True, rerank_candidates=20)
+    assert setup.name() == "hybrid 70/30 + state filter + rerank 20"
+
+
 def test_build_setups_sweeps_hybrid_weights_with_state_filter():
-    swept = [s.dense_weight for s in build_setups() if s.mode == "hybrid" and s.use_state_filter]
+    swept = [
+        setup.dense_weight
+        for setup in build_setups()
+        if setup.mode == "hybrid" and setup.use_state_filter and setup.rerank_candidates is None
+    ]
     assert swept == HYBRID_DENSE_WEIGHTS
+
+
+def test_build_setups_ends_with_rerank_setups():
+    reranked = [setup.rerank_candidates for setup in build_setups() if setup.rerank_candidates]
+    assert reranked == RERANK_CANDIDATE_COUNTS
