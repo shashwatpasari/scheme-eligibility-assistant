@@ -60,7 +60,8 @@ flowchart LR
 5. **Answer.** Eligible schemes are listed first.
 
 The LLM layer is provider-neutral: any Gemini, Gemma or Claude model can be used with
-`--model <name>`, and every call's tokens and cost are recorded.
+`--model <name>`, and every call's tokens and cost are recorded. With LangSmith tracing on,
+each question is also recorded as one trace: every step, prompt, reply, time and cost.
 
 ## Results
 
@@ -135,6 +136,9 @@ uv sync
 # API keys, in a .env file at the project root (never committed)
 echo "GEMINI_API_KEY=..." >> .env
 echo "ANTHROPIC_API_KEY=..." >> .env     # only needed for Claude models
+echo "LANGSMITH_TRACING=true" >> .env    # optional: trace each question in LangSmith
+echo "LANGSMITH_API_KEY=..." >> .env
+echo "LANGSMITH_PROJECT=scheme-assistant" >> .env
 
 # Data: download the dataset, clean it into data/schemes/, build the search index
 uv run python -m scheme_assistant.hf_dataset
@@ -180,7 +184,8 @@ data/eval/                          labelled dev/test sets, results and their wr
 ## Tech stack
 
 Python 3.12, uv, Pydantic · bge-m3 and bge-reranker-v2-m3 (FlagEmbedding) · Qdrant ·
-Gemini API (Gemini, Gemma) and Anthropic API (Claude) with structured output · pytest, ruff
+Gemini API (Gemini, Gemma) and Anthropic API (Claude) with structured output · LangSmith
+tracing · pytest, ruff
 
 ## Limitations
 
@@ -199,7 +204,7 @@ Gemini API (Gemini, Gemma) and Anthropic API (Claude) with structured output · 
 - [ ] Agent that asks follow-up questions for vague or incomplete descriptions
 - [ ] Faithfulness check on the reasons the model gives
 - [ ] API and web interface
-- [ ] Tracing and monitoring of LLM calls
+- [x] Tracing of every question and LLM call with LangSmith
 - [ ] Docker, CI and a public deployment
 - [ ] Fine-tune a small open model for the eligibility check
 

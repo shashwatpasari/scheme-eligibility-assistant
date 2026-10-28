@@ -12,6 +12,7 @@ Usage:
 
 import argparse
 
+from langsmith import traceable
 from pydantic import BaseModel
 
 from scheme_assistant.llm import DEFAULT_MODEL, LLMClient, make_llm
@@ -93,6 +94,7 @@ def normalise_state(name: str | None) -> str | None:
     return None
 
 
+@traceable
 def rewrite_query(llm: LLMClient, query: str) -> QueryRewrite:
     """Rewrite one user question with the LLM.
 

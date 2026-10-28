@@ -7,7 +7,8 @@ from the model name, so any model can be tried with `--model <name>`:
 
 API keys are read from a `.env` file at the project root (never committed).
 
-Every client counts the tokens it uses, so evaluations can report cost.
+Every client counts the tokens it uses, so evaluations can report cost. When LangSmith
+tracing is on (LANGSMITH_TRACING=true in .env), every LLM call is also traced.
 """
 
 import threading
@@ -15,6 +16,8 @@ from dataclasses import dataclass
 from typing import Protocol, TypeVar
 
 from dotenv import load_dotenv
+from langsmith import traceable
+from langsmith.wrappers import wrap_gemini
 from pydantic import BaseModel, ValidationError
 
 from scheme_assistant.hf_dataset import PROJECT_ROOT
@@ -98,9 +101,12 @@ class GeminiClient:
         self.model = model
         self.usage = TokenUsage()
         self._types = types
-        self._client = genai.Client(
-            http_options=types.HttpOptions(
-                retry_options=types.HttpRetryOptions(attempts=RETRY_ATTEMPTS)
+        # wrap_gemini traces each API call with its prompt, reply, tokens and cost.
+        self._client = wrap_gemini(
+            genai.Client(
+                http_options=types.HttpOptions(
+                    retry_options=types.HttpRetryOptions(attempts=RETRY_ATTEMPTS)
+                )
             )
         )
 
@@ -153,6 +159,9 @@ class ClaudeClient:
         self.usage = TokenUsage()
         self._client = anthropic.Anthropic(max_retries=RETRY_ATTEMPTS)
 
+    # LangSmith's Anthropic wrapper does not cover messages.parse, so the call is traced
+    # here; it shows the prompt and reply but not the token cost.
+    @traceable(run_type="llm", name="claude")
     def generate(
         self, system_prompt: str, user_prompt: str, response_model: type[ResponseT]
     ) -> ResponseT:

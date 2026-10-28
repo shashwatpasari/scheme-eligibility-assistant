@@ -14,10 +14,11 @@ Usage (requires a built index and an API key in .env):
 """
 
 import argparse
-from concurrent.futures import ThreadPoolExecutor
 from contextlib import closing
 from dataclasses import dataclass
 
+from langsmith import traceable
+from langsmith.utils import ContextThreadPoolExecutor
 from qdrant_client import QdrantClient
 
 from scheme_assistant.eligibility import EligibilityDecision, check_eligibility
@@ -49,6 +50,7 @@ class Answer:
     results: list[SchemeResult]  # eligible first, then need_more_info, then not_eligible
 
 
+@traceable
 def answer_question(
     llm: LLMClient,
     client: QdrantClient,
@@ -89,7 +91,9 @@ def answer_question(
         except LLMError:
             return None  # the model gave no valid reply; leave this scheme out
 
-    with ThreadPoolExecutor(max_workers=PARALLEL_CHECKS) as pool:
+    # Unlike ThreadPoolExecutor, this passes the trace to the worker threads, so the
+    # checks are traced under this question instead of as separate traces.
+    with ContextThreadPoolExecutor(max_workers=PARALLEL_CHECKS) as pool:
         decisions = list(pool.map(check, [hit.scheme_id for hit in hits]))
 
     results = [

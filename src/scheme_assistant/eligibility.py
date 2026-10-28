@@ -11,6 +11,7 @@ Usage:
 
 import argparse
 
+from langsmith import traceable
 from pydantic import BaseModel
 
 from scheme_assistant.llm import DEFAULT_MODEL, LLMClient, make_llm
@@ -64,6 +65,7 @@ def build_prompt(scheme: Scheme, user_description: str, user_state: str | None) 
     )
 
 
+@traceable
 def check_eligibility(
     llm: LLMClient, scheme: Scheme, user_description: str, user_state: str | None = None
 ) -> EligibilityDecision:

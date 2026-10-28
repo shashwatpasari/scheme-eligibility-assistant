@@ -17,6 +17,7 @@ import argparse
 from contextlib import closing
 from dataclasses import dataclass
 
+from langsmith import traceable
 from qdrant_client import QdrantClient, models
 
 from scheme_assistant.build_schemes import SCHEMES_DIR
@@ -322,6 +323,7 @@ def search_by_embedding(
     raise ValueError(f"Unknown mode {mode!r}; expected one of {MODES}")
 
 
+@traceable
 def search(
     client: QdrantClient,
     embedder: BgeM3Embedder,

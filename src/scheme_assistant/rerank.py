@@ -15,6 +15,7 @@ import argparse
 from contextlib import closing
 from typing import Protocol
 
+from langsmith import traceable
 from qdrant_client import QdrantClient
 
 from scheme_assistant.search import (
@@ -70,6 +71,7 @@ class BgeReranker:
         return [float(score) for score in scores]
 
 
+@traceable
 def rerank(reranker: Reranker, query: str, hits: list[SearchHit], limit: int) -> list[SearchHit]:
     """Re-order search hits by re-ranker score and keep the best.
 
@@ -86,33 +88,6 @@ def rerank(reranker: Reranker, query: str, hits: list[SearchHit], limit: int) ->
     scores = reranker.score(query, texts)
     ranked = sorted(zip(hits, scores), key=lambda pair: pair[1], reverse=True)
     return [SearchHit(hit.scheme_id, hit.name, score) for hit, score in ranked[:limit]]
-
-
-def search_and_rerank(
-    client: QdrantClient,
-    embedder: BgeM3Embedder,
-    reranker: Reranker,
-    query: str,
-    user_state: str | None = None,
-    limit: int = 10,
-    candidates: int = RERANK_CANDIDATES,
-) -> list[SearchHit]:
-    """Search for candidate schemes, then re-rank them.
-
-    Args:
-        client: Qdrant client holding the scheme index.
-        embedder: Embedder used to encode the query.
-        reranker: Model used to re-order the candidates.
-        query: The user's question.
-        user_state: If given, only central schemes and this state's schemes are searched.
-        limit: Number of hits to return.
-        candidates: Number of search results to re-rank; should be at least `limit`.
-
-    Returns:
-        The best `limit` hits after re-ranking.
-    """
-    hits = search(client, embedder, query, user_state=user_state, limit=candidates)
-    return rerank(reranker, query, hits, limit)
 
 
 # --- Command line -----------------------------------------------------------
