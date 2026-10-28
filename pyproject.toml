@@ -1,7 +1,7 @@
 [project]
 name = "scheme-assistant"
 version = "0.1.0"
-description = "Add your description here"
+description = "Tells Indian citizens which government schemes they qualify for, using retrieval and LLM eligibility checks."
 readme = "README.md"
 authors = [
     { name = "shashwatpasari", email = "shashwatpasari@gmail.com" }
@@ -17,7 +17,7 @@ dependencies = [
 ]
 
 [project.scripts]
-scheme-assistant = "scheme_assistant:main"
+scheme-assistant = "scheme_assistant.assistant:main"
 
 [build-system]
 requires = ["uv_build>=0.11.28,<0.12.0"]
